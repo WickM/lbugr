@@ -1,0 +1,65 @@
+url: https://wickm.github.io/lbugr/
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#FAFAFA"
+    fg: "#454545"
+    primary: "#D48D3E"
+    base_font: {google: "Open Sans"}
+    heading_font: {google: "Montserrat"}
+    code_font: {google: "Fira Code"}
+  params:
+    logo:
+      src: man/figures/lbugrHex.png
+    favicon: man/figures/lbugrHex.png
+  assets:
+    css: pkgdown/assets/lbugr_style.css
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: "Getting Started"
+      href: articles/getting-started.html
+articles:
+- title: "Getting Started"
+  navbar: "Getting Started"
+  contents:
+  - getting-started
+- title: "Installation and Usage"
+  navbar: "Installation and Usage"
+  contents:
+  - installation-and-usage
+- title: "Graph Library Integrations"
+  navbar: "Graph Library Integrations"
+  contents:
+  - graph-integrations
+reference:
+- title: "Core Ladybug Connection and Querying"
+  contents:
+  - lb_connection
+  - lb_execute
+  - lb_get_all
+  - lb_get_n
+  - lb_get_next
+  - lb_get_column_names
+  - lb_get_column_data_types
+  - lb_get_schema
+- title: "Data Loading"
+  contents:
+  - lb_copy_from_csv
+  - as.data.frame.ladybug.query_result.QueryResult
+  - as_tibble.ladybug.query_result.QueryResult
+  - lb_copy_from_df
+  - lb_create_table_from_df
+  - lb_copy_from_json
+  - lb_copy_from_parquet
+  - lb_merge_df
+- title: "Graph Integrations"
+  contents:
+  - as_igraph
+  - as_tidygraph
+- title: "Installation"
+  contents:
+  - check_ladybug_installation

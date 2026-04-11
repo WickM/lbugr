@@ -1,0 +1,16 @@
+^lbugr\.Rproj$
+^\.Rproj\.user$
+^Meta/
+^\.github$
+^codecov\.yml$
+^Agent\.md$
+^TESTING\.md$
+^cran-comments\.md$
+^\.lintr$
+^\.Renviron$
+^\.Rprofile$
+^pkgdown$
+^README\.Rmd$
+^\.kilo$
+^nul$
+^LICENSE\.md$
