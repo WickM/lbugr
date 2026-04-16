@@ -33,10 +33,9 @@ conn_disk <- lb_connection(db_path)
 
 # Ensure the database is shut down and removed on exit
 on.exit({
-  # Access the 'db' object from the reticulate main module
-  main <- reticulate::import_main()
-  if (!is.null(main$db)) {
-    main$db$shutdown()
+  db <- attr(conn_disk, "lbugr_db")
+  if (!is.null(db)) {
+    db$shutdown()
   }
   unlink(temp_db_dir, recursive = TRUE)
 })

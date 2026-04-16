@@ -1,12 +1,5 @@
 # Tests for lbugr Data Loading Functions
 
-# Skip all tests if ladybug is not available
-skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
-  }
-}
-
 # Test lb_copy_from_df loads data into node table
 test_that("lb_copy_from_df loads data into node table", {
   skip_if_no_ladybug()
@@ -89,28 +82,28 @@ test_that("lb_copy_from_df validates table_name", {
 # Test lb_copy_from_df works with relationship tables
 test_that("lb_copy_from_df loads data into relationship table", {
   skip_if_no_ladybug()
-  
+
   conn <- test_conn(environment())
-  
-  # Create node tables
+
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
-  
-  # Create relationship table
   lb_execute(conn, "CREATE REL TABLE Knows(FROM Person TO Person)")
-  
-  # Insert nodes first
   lb_execute(conn, "CREATE (:Person {name: 'Alice'})")
   lb_execute(conn, "CREATE (:Person {name: 'Bob'})")
-  
-  # Create relationship data frame
+
   rel_df <- data.frame(
     from_person = c("Alice"),
     to_person = c("Bob"),
     stringsAsFactors = FALSE
   )
-  
-  # Note: This test may need adjustment based on Ladybug's actual behavior
-  # The column names may need to match the primary key columns
+
+  expect_silent(lb_copy_from_df(conn, rel_df, "Knows"))
+
+  result <- lb_execute(conn, "MATCH (a:Person)-[k:Knows]->(b:Person) RETURN a.name, b.name")
+  df_result <- as.data.frame(result)
+
+  expect_equal(nrow(df_result), 1)
+  expect_equal(df_result$a.name[[1]], "Alice")
+  expect_equal(df_result$b.name[[1]], "Bob")
 })
 
 # Test lb_create_table_from_df creates a node table
@@ -315,20 +308,21 @@ test_that("lb_merge_df executes merge query", {
 # Test that lb_copy_from_file internal function exists
 test_that("internal lb_copy_from_file function is available", {
   skip_if_no_ladybug()
-  
+
   conn <- test_conn(environment())
-  
-  # Create a table first
+
   lb_execute(conn, "CREATE NODE TABLE Test(name STRING, PRIMARY KEY (name))")
-  
-  # Create a temp file
+
   csv_file <- tempfile(fileext = ".csv")
   on.exit(unlink(csv_file), add = TRUE)
   write.csv(data.frame(name = "Alice"), csv_file, row.names = FALSE)
-  
-  # The internal function should be callable
-  # (We test indirectly through lb_copy_from_csv)
-  lb_copy_from_csv(conn, csv_file, "Test")
+
+  expect_silent(lb_copy_from_csv(conn, csv_file, "Test", list(header = "true")))
+
+  result <- lb_execute(conn, "MATCH (t:Test) RETURN t.name")
+  df_result <- as.data.frame(result)
+  expect_equal(nrow(df_result), 1)
+  expect_equal(df_result$t.name[[1]], "Alice")
 })
 
 # Test lb_copy_from_df works for node and rel tables

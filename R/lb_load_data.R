@@ -108,10 +108,7 @@ lb_copy_from_file <- function(
   optional_parameter = NULL
 ) {
   validate_table_name(table_name)
-  main <- reticulate::import_main()
-  main$conn <- conn
 
-  # Replace backslashes with forward slashes for compatibility
   file_path <- gsub("\\\\", "/", file_path)
 
   query <- paste0("COPY ", table_name, " FROM '", file_path, "'")
@@ -126,8 +123,7 @@ lb_copy_from_file <- function(
     query <- paste0(query, " (", opts, ")")
   }
 
-  main$query <- query
-  reticulate::py_run_string("conn.execute(query)", convert = FALSE)
+  conn$execute(query)
   invisible(NULL)
 }
 

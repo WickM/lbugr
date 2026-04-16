@@ -310,7 +310,6 @@ as_data_frame_lbugr_graph <- function(x, ...) {
 #' @param query_result A `ladybug_query_result` object from `lb_execute()` that
 #' contains a graph.
 #' @return An `igraph` object.
-#' @importFrom igraph graph_from_data_frame
 #' @export
 #' @examples
 #' \donttest{
@@ -335,6 +334,13 @@ as_data_frame_lbugr_graph <- function(x, ...) {
 #' }
 #' }
 as_igraph <- function(query_result) {
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    stop(
+      "The 'igraph' package is required to use as_igraph(). Please install it.",
+      call. = FALSE
+    )
+  }
+  
   graph_dfs <- as_data_frame_lbugr_graph(query_result)
 
   if (nrow(graph_dfs$edges) == 0) {
@@ -399,7 +405,6 @@ as_igraph <- function(query_result) {
 #' @param query_result A `ladybug_query_result` object from `lb_execute()` that
 #' contains a graph.
 #' @return A `tbl_graph` object.
-#' @importFrom tidygraph tbl_graph
 #' @export
 #' @examples
 #' \donttest{
@@ -415,6 +420,13 @@ as_igraph <- function(query_result) {
 #' }
 #' }
 as_tidygraph <- function(query_result) {
+  if (!requireNamespace("tidygraph", quietly = TRUE)) {
+    stop(
+      "The 'tidygraph' package is required to use as_tidygraph(). Please install it.",
+      call. = FALSE
+    )
+  }
+  
   graph_dfs <- as_data_frame_lbugr_graph(query_result)
 
   # Create edge list - tidygraph/igraph expect from/to columns

@@ -1,12 +1,5 @@
 # Tests for lbugr Installation Check
 
-# Helper function to skip tests if ladybug is not available
-skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
-  }
-}
-
 # Test check_ladybug_installation returns message when ladybug is available
 test_that("check_ladybug_installation succeeds when ladybug is available", {
   if (reticulate::py_module_available("real_ladybug")) {
@@ -20,16 +13,15 @@ test_that("check_ladybug_installation succeeds when ladybug is available", {
 
 # Test check_ladybug_installation fails gracefully when ladybug is not installed
 test_that("check_ladybug_installation provides helpful error when ladybug is missing", {
-  # Temporarily mock the py_module_available to return FALSE
-  # This test will skip if ladybug is actually available
-  
-  # If ladybug is not available, check that error message is informative
-  if (!reticulate::py_module_available("real_ladybug")) {
-    expect_error(
-      check_ladybug_installation(quiet = TRUE),
-      "The 'real_ladybug' Python package is not installed"
-    )
-  }
+  testthat::local_mocked_bindings(
+    py_module_available = function(module) FALSE,
+    .package = "reticulate"
+  )
+
+  expect_error(
+    check_ladybug_installation(quiet = TRUE),
+    "The 'real_ladybug' Python package is not installed"
+  )
 })
 
 # Test that reticulate is properly loaded
@@ -62,14 +54,16 @@ test_that("real_ladybug module has expected classes", {
 
 # Test installation check provides installation instructions
 test_that("check_ladybug_installation provides installation instructions", {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    result <- tryCatch(
-      check_ladybug_installation(quiet = TRUE),
-      error = function(e) e$message
-    )
-    # Error message should contain installation hint
-    expect_true(grepl("py_install", result, ignore.case = TRUE))
-  }
+  testthat::local_mocked_bindings(
+    py_module_available = function(module) FALSE,
+    .package = "reticulate"
+  )
+
+  expect_error(
+    check_ladybug_installation(quiet = TRUE),
+    "py_install",
+    ignore.case = TRUE
+  )
 })
 
 # Test that py_install can be used to install ladybug

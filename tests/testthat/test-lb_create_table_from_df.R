@@ -1,12 +1,5 @@
 # Tests for lb_create_table_from_df Function
 
-# Skip all tests if ladybug is not available
-skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
-  }
-}
-
 # Test lb_create_table_from_df creates table with integer column
 test_that("lb_create_table_from_df creates table with INTEGER column", {
   skip_if_no_ladybug()

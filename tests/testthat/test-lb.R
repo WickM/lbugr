@@ -1,12 +1,5 @@
 # Tests for lbugr Core Connection and Query Functions
 
-# Skip all tests if ladybug is not available
-skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
-  }
-}
-
 # Test that lb_connection returns a connection object
 test_that("lb_connection creates an in-memory database connection", {
   skip_if_no_ladybug()
@@ -235,7 +228,7 @@ test_that("as.data.frame converts query result to data.frame", {
 test_that("as_tibble converts query result to tibble", {
   skip_if_no_ladybug()
   skip_if_not_installed("tibble")
-  library(tibble)  # Load tibble for as_tibble function
+  suppressWarnings(library(tibble))
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")

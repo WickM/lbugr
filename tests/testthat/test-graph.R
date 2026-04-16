@@ -1,12 +1,5 @@
 # Tests for lbugr Graph Conversion Functions
 
-# Skip all tests if ladybug is not available
-skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
-  }
-}
-
 # Test as_igraph converts query result to igraph object
 test_that("as_igraph converts query result to igraph object", {
   skip_if_no_ladybug()

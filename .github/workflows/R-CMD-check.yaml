@@ -71,13 +71,3 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
-
-      - name: Run Tests
-        run: |
-          R -e "devtools::test()"
-        shell: Rscript {0}
-
-      - name: Check Coverage
-        run: |
-          R -e "if (requireNamespace('covr', quietly = TRUE)) { covr::package_coverage() } else { cat('covr not available\n') }"
-        shell: Rscript {0}

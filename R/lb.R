@@ -3,6 +3,35 @@
 # Cache environment for lb_get_next iteration position
 .lbugr_iter_cache <- new.env(parent = emptyenv())
 
+query_result_to_df <- function(py_result) {
+  col_names <- reticulate::py_to_r(py_result$get_column_names())
+  all_rows <- vector("list", 0L)
+  while (isTRUE(reticulate::py_to_r(py_result$has_next()))) {
+    all_rows[[length(all_rows) + 1L]] <- py_result$get_next()
+  }
+
+  df_list <- lapply(all_rows, function(row) {
+    row_values <- reticulate::py_to_r(row)
+    stats::setNames(lapply(row_values, convert_python_to_r), col_names)
+  })
+
+  if (length(df_list) == 0) {
+    if (length(col_names) == 0) {
+      return(data.frame(stringsAsFactors = FALSE))
+    } else {
+      return(as.data.frame(
+        lapply(col_names, function(x) character(0)),
+        stringsAsFactors = FALSE,
+        check.names = FALSE
+      ))
+    }
+  }
+
+  do.call(rbind, lapply(df_list, function(x) {
+    as.data.frame(x, stringsAsFactors = FALSE, check.names = FALSE)
+  }))
+}
+
 #' Create a Connection to a Ladybug Database
 #'
 #' Establishes a connection to a Ladybug database. If the database does not exist
@@ -28,22 +57,27 @@
 #'
 #' # Ensure the database is shut down and removed on exit
 #' on.exit({
-#'   # Access the 'db' object from the reticulate main module
-#'   main <- reticulate::import_main()
-#'   if (!is.null(main$db)) {
-#'     main$db$shutdown()
+#'   db <- attr(conn_disk, "lbugr_db")
+#'   if (!is.null(db)) {
+#'     db$shutdown()
 #'   }
 #'   unlink(temp_db_dir, recursive = TRUE)
 #' })
 #' }
 lb_connection <- function(path) {
-  main <- reticulate::import_main()
-  main$path <- path
-  reticulate::py_run_string(
-    "import real_ladybug; db = real_ladybug.Database(path); conn = real_ladybug.Connection(db)",
-    convert = FALSE
-  )
-  reticulate::py$conn
+  if (!is.character(path) || length(path) != 1L || is.na(path)) {
+    stop("`path` must be a single non-NA character string.", call. = FALSE)
+  }
+
+  main <- reticulate::import_main(convert = FALSE)
+  main$lb <- reticulate::import("real_ladybug", convert = FALSE)
+  main$lbugr_path <- path
+  reticulate::py_run_string("db = lb.Database(lbugr_path)\nconn = lb.Connection(db)", convert = FALSE)
+
+  db <- main$db
+  conn <- main$conn
+  attr(conn, "lbugr_db") <- db
+  conn
 }
 
 #' Execute a Cypher Query
@@ -71,44 +105,15 @@ lb_connection <- function(path) {
 #' result <- lb_execute(conn, "MATCH (a:User) RETURN a.name, a.age")
 #' }
 lb_execute <- function(conn, query) {
-  main <- reticulate::import_main()
-  main$conn <- conn
-  main$query <- query
-  reticulate::py_run_string("result = conn.execute(query)", convert = FALSE)
-  result <- reticulate::py$result
-  
-  # Pre-convert to data.frame for convenience and proper S3 dispatch
-  col_names <- result$get_column_names()
-  all_rows <- list()
-  while (result$has_next()) {
-    all_rows <- c(all_rows, list(result$get_next()))
+  if (!inherits(conn, "python.builtin.object")) {
+    stop("`conn` must be a Ladybug connection object from lb_connection().", call. = FALSE)
   }
-  
-  # Convert list of lists to named lists, converting Python objects to R values
-  df_list <- lapply(all_rows, function(row) {
-    converted_row <- lapply(row, convert_python_to_r)
-    stats::setNames(converted_row, col_names)
-  })
-  
-  # Convert to data.frame
-  if (length(df_list) == 0) {
-    if (length(col_names) == 0) {
-      return(data.frame(stringsAsFactors = FALSE))
-    } else {
-      return(as.data.frame(
-        lapply(col_names, function(x) character(0)),
-        stringsAsFactors = FALSE,
-        check.names = FALSE
-      ))
-    }
-  } else {
-    return(do.call(
-      rbind,
-      lapply(df_list, function(x) {
-        as.data.frame(x, stringsAsFactors = FALSE, check.names = FALSE)
-      })
-    ))
+  if (!is.character(query) || length(query) != 1L || is.na(query)) {
+    stop("`query` must be a single non-NA character string.", call. = FALSE)
   }
+
+  result <- conn$execute(query)
+  query_result_to_df(result)
 }
 
 #' Convert a Ladybug Query Result to a Data Frame
@@ -134,40 +139,7 @@ lb_execute <- function(conn, query) {
 #' print(df)
 #' }
 as.data.frame.real_ladybug.query_result.QueryResult <- function(x, ...) {
-  col_names <- x$get_column_names()
-  all_rows_values <- list()
-  while (x$has_next()) {
-    all_rows_values <- c(all_rows_values, list(x$get_next()))
-  }
-
-  # Convert list of lists to named lists, converting Python objects to R values
-  df_list <- lapply(all_rows_values, function(row) {
-    converted_row <- lapply(row, convert_python_to_r)
-    stats::setNames(converted_row, col_names)
-  })
-
-  # Handle empty results
-  if (length(df_list) == 0) {
-    if (length(col_names) == 0) {
-      # No columns, return empty data frame
-      data.frame(stringsAsFactors = FALSE)
-    } else {
-      # Create empty data frame with column names
-      as.data.frame(
-        lapply(col_names, function(x) character(0)),
-        stringsAsFactors = FALSE,
-        check.names = FALSE
-      )
-    }
-  } else {
-    # Convert to data.frame by rbinding named lists
-    do.call(
-      rbind,
-      lapply(df_list, function(x) {
-        as.data.frame(x, stringsAsFactors = FALSE, check.names = FALSE)
-      })
-    )
-  }
+  query_result_to_df(x)
 }
 
 #' Convert a Ladybug Query Result to a Tibble
@@ -202,31 +174,7 @@ as_tibble.real_ladybug.query_result.QueryResult <- function(x, ...) {
       call. = FALSE
     )
   }
-  col_names <- x$get_column_names()
-  
-  all_rows_values <- list()
-  while (x$has_next()) {
-    all_rows_values <- c(all_rows_values, list(x$get_next()))
-  }
-  
-  # Convert list of lists to named lists, converting Python objects to R values
-  df_list <- lapply(all_rows_values, function(row) {
-    converted_row <- lapply(row, convert_python_to_r)
-    stats::setNames(converted_row, col_names)
-  })
-
-  # Handle empty results
-  if (length(df_list) == 0) {
-    tibble::as_tibble(setNames(list(), col_names))
-  } else {
-    # Convert to tibble by rbinding named lists
-    tibble::as_tibble(do.call(
-      rbind,
-      lapply(df_list, function(x) {
-        as.data.frame(x, stringsAsFactors = FALSE, check.names = FALSE)
-      })
-    ))
-  }
+  tibble::as_tibble(query_result_to_df(x))
 }
 
 #' Retrieve All Rows from a Query Result
@@ -247,22 +195,18 @@ as_tibble.real_ladybug.query_result.QueryResult <- function(x, ...) {
 #' all_results <- lb_get_all(result)
 #' }
 lb_get_all <- function(result) {
-  # Check if result is a data.frame (returned by lb_execute) or Python object
   if (is.data.frame(result)) {
-    # Convert each row to a named list
     lapply(seq_len(nrow(result)), function(i) {
       as.list(result[i, , drop = FALSE])
     })
   } else {
-    # Original code for raw Python object
-    col_names <- result$get_column_names()
-    all_rows_values <- list()
+    col_names <- reticulate::py_to_r(result$get_column_names())
+    all_rows_values <- vector("list", 0L)
     while (result$has_next()) {
-      all_rows_values <- c(all_rows_values, list(result$get_next()))
+      all_rows_values[[length(all_rows_values) + 1L]] <- result$get_next()
     }
     lapply(all_rows_values, function(row) {
-      converted_row <- lapply(row, convert_python_to_r)
-      stats::setNames(converted_row, col_names)
+      stats::setNames(lapply(row, convert_python_to_r), col_names)
     })
   }
 }
@@ -294,7 +238,7 @@ lb_get_n <- function(result, n) {
       as.list(head_rows[i, , drop = FALSE])
     })
   } else {
-    col_names <- result$get_column_names()
+    col_names <- reticulate::py_to_r(result$get_column_names())
     n_rows_values <- result$get_n(as.integer(n))
     lapply(n_rows_values, function(row) {
       converted_row <- lapply(row, convert_python_to_r)
@@ -324,39 +268,29 @@ lb_get_n <- function(result, n) {
 #' row2 <- lb_get_next(result)
 #' }
 lb_get_next <- function(result) {
-  # Check if result is a data.frame (returned by lb_execute) or Python object
   if (is.data.frame(result)) {
-    # Create a hash of the data.frame to use as cache key
     cache_key <- digest::sha1(paste(deparse(result), collapse = ""))
-    
-    # Get iteration position from cache
     iter_pos <- .lbugr_iter_cache[[cache_key]]
     if (is.null(iter_pos)) {
       iter_pos <- 1
     }
-    
+
     if (iter_pos > nrow(result)) {
-      # Clean up cache entry when exhausted
-      .lbugr_iter_cache[[cache_key]] <- NULL
+      rm(list = cache_key, envir = .lbugr_iter_cache)
       return(NULL)
     }
-    
-    # Get the row at current position
+
     row <- as.list(result[iter_pos, ])
-    
-    # Increment the position for next call
     .lbugr_iter_cache[[cache_key]] <- iter_pos + 1
-    
+
     return(row)
   }
-  
-  # Original code for raw Python object
+
   if (!result$has_next()) {
     return(NULL)
   }
   col_names <- result$get_column_names()
   row_values <- result$get_next()
-  # Convert Python values to R
   converted_row <- lapply(row_values, convert_python_to_r)
   stats::setNames(converted_row, col_names)
 }

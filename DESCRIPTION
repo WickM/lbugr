@@ -20,12 +20,12 @@ BugReports: https://github.com/WickM/lbugr/issues
 License: MIT
 Imports:
     reticulate,
-    igraph,
-    tibble,
-    tidygraph,
     digest
 Suggests:
     g6R,
+    igraph,
+    tibble,
+    tidygraph,
     jsonlite,
     testthat (>= 3.0.0),
     knitr,

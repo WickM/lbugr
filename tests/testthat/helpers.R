@@ -3,6 +3,15 @@
 # This file provides shared test utilities, fixtures, and helper functions
 # to support the test suite.
 
+#' Skip test if real_ladybug Python package is not available
+#'
+#' @keywords internal
+skip_if_no_ladybug <- function() {
+  if (!reticulate::py_module_available("real_ladybug")) {
+    skip("real_ladybug Python package not available")
+  }
+}
+
 #' Clean up test database resources
 #'
 #' Shuts down the Ladybug database and removes temporary database files.
