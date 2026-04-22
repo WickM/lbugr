@@ -55,5 +55,5 @@ TO Node Column: The primary key of the TO nodes.
 }
 }
 \seealso{
-\href{https://docs.ladybugdb.com/docs/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
+\href{https://ladybugdb.com/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
 }

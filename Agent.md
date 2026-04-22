@@ -220,5 +220,5 @@ lb_copy_from_df(con, df, "NodeTable")
 ## References
 
 - Ladybug Database: https://ladybugdb.com/
-- Ladybug Documentation: https://docs.ladybugdb.com/
+- Ladybug Documentation: https://ladybugdb.com/
 - kuzuR (predecessor): https://github.com/WickM/kuzuR

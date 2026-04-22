@@ -12,8 +12,3 @@
     * Direct conversion to `tidygraph` objects with `as_tidygraph()`.
     * Integration with `g6R` for interactive visualization via `igraph` objects.
 * Added vignettes for installation, usage, and graph library integrations.
-
-# lbugr 0.1.1 (Development)
-
-* **Python version support**: Now supports Python 3.14 (was 3.9). The VirtualAlloc memory error with Python 3.13+ is resolved by using real_ladybug 0.15.0+ which includes the fix from the Ladybug database.
-* Updated CI to use Python 3.14, plus an explicit Windows job for Python 3.13.9 compatibility checks.

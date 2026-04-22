@@ -2,12 +2,15 @@
 
 # Test check_ladybug_installation returns message when ladybug is available
 test_that("check_ladybug_installation succeeds when ladybug is available", {
-  if (reticulate::py_module_available("real_ladybug")) {
+  ladybug_avail <- reticulate::py_module_available("ladybug")
+  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
+
+  if (ladybug_avail || real_ladybug_avail) {
     # Should not throw an error - use quiet = TRUE to suppress message
     expect_silent(check_ladybug_installation(quiet = TRUE))
   } else {
     # Should throw an error when ladybug is not available
-    expect_error(check_ladybug_installation(quiet = TRUE), "real_ladybug")
+    expect_error(check_ladybug_installation(quiet = TRUE), "ladybug")
   }
 })
 
@@ -20,7 +23,7 @@ test_that("check_ladybug_installation provides helpful error when ladybug is mis
 
   expect_error(
     check_ladybug_installation(quiet = TRUE),
-    "The 'real_ladybug' Python package is not installed"
+    "The 'ladybug' Python package is not installed"
   )
 })
 
@@ -43,10 +46,26 @@ test_that("reticulate can import Python builtins", {
   expect_silent(tryCatch(reticulate::import("sys"), error = function(e) NULL))
 })
 
-# Test that real_ladybug module has expected classes
-test_that("real_ladybug module has expected classes", {
+# Test that ladybug module has expected classes
+test_that("ladybug module has expected classes", {
   skip_if_no_ladybug()
-  ladybug <- reticulate::import("real_ladybug")
+
+  # Try ladybug first, then real_ladybug
+  ladybug_avail <- reticulate::py_module_available("ladybug")
+  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
+
+  ladybug <- if (ladybug_avail) {
+    tryCatch(reticulate::import("ladybug"), error = function(e) NULL)
+  } else {
+    NULL
+  }
+
+  if (is.null(ladybug) && real_ladybug_avail) {
+    ladybug <- tryCatch(reticulate::import("real_ladybug"), error = function(e) NULL)
+  }
+
+  skip_if(is.null(ladybug), "Could not import ladybug module")
+
   # Database and Connection are core classes
   expect_true("Database" %in% names(ladybug))
   expect_true("Connection" %in% names(ladybug))

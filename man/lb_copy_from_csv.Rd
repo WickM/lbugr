@@ -49,5 +49,5 @@ Loads data from a CSV file into a specified table in the Ladybug database.
 }
 }
 \seealso{
-\href{https://docs.ladybugdb.com/docs/import/csv}{Ladybug CSV Import}
+\href{https://ladybugdb.com/import/csv}{Ladybug CSV Import}
 }

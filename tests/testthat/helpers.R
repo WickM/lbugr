@@ -3,12 +3,15 @@
 # This file provides shared test utilities, fixtures, and helper functions
 # to support the test suite.
 
-#' Skip test if real_ladybug Python package is not available
+#' Skip test if ladybug Python package is not available
 #'
 #' @keywords internal
 skip_if_no_ladybug <- function() {
-  if (!reticulate::py_module_available("real_ladybug")) {
-    skip("real_ladybug Python package not available")
+  ladybug_avail <- reticulate::py_module_available("ladybug")
+  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
+
+  if (!ladybug_avail && !real_ladybug_avail) {
+    skip("ladybug Python package not available")
   }
 }
 

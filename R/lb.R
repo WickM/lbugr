@@ -69,8 +69,12 @@ lb_connection <- function(path) {
     stop("`path` must be a single non-NA character string.", call. = FALSE)
   }
 
+  # Use the globally initialized lbugr object (from zzz.R)
+  # This handles both 'ladybug' and 'real_ladybug' package names
+  lb <- lbugr
+
   main <- reticulate::import_main(convert = FALSE)
-  main$lb <- reticulate::import("real_ladybug", convert = FALSE)
+  main$lb <- lb
   main$lbugr_path <- path
   reticulate::py_run_string("db = lb.Database(lbugr_path)\nconn = lb.Connection(db)", convert = FALSE)
 
@@ -218,6 +222,7 @@ lb_get_all <- function(result) {
 #' @param result A Ladybug query result object.
 #' @param n The number of rows to retrieve.
 #' @return A list of the first `n` rows.
+#' @importFrom utils head
 #' @export
 #' @examples
 #' \donttest{

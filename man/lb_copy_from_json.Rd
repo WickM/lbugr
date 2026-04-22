@@ -45,5 +45,5 @@ This function also ensures the JSON extension is loaded and available.
 }
 }
 \seealso{
-\href{https://docs.ladybugdb.com/docs/import/copy-from-json}{Ladybug JSON Import}, \href{https://docs.ladybugdb.com/docs/extensions/json}{Ladybug JSON Extension}
+\href{https://ladybugdb.com/import/copy-from-json}{Ladybug JSON Import}, \href{https://ladybugdb.com/extensions/json}{Ladybug JSON Extension}
 }

@@ -22,14 +22,47 @@ This is the initial submission of `lbugr`, an R interface to the Ladybug Graph D
 
 ### Dependencies
 
-- **Imports**: reticulate, igraph, tibble, tidygraph, digest
-- **Suggests**: g6R, jsonlite, testthat (>= 3.0.0), knitr, rmarkdown, spelling, arrow
-- **Python**: Requires `real_ladybug` Python package
+- **Imports**: reticulate, digest, tibble
+- **Suggests**: g6R, igraph, tidygraph, jsonlite, testthat (>= 3.0.0), knitr, rmarkdown, spelling, arrow, withr
+- **Python**: Requires `real_ladybug` Python package (Python 3.14+ recommended)
 
 ### Note on Python Dependency
 
 The package requires the `real_ladybug` Python package. Installation instructions are provided in the Description field and in the README. Users must install this Python package separately using `reticulate::py_install("real_ladybug", pip = TRUE)`.
 
+**Note**: Python 3.14+ is required due to fixes in the underlying kuzu database engine that resolve VirtualAlloc memory issues on Windows with Python 3.13+.
+
 ### Test Results
 
-R CMD check results will be available after running checks. All tests are designed to skip gracefully if the Python package is not available.
+R CMD check --as-cran results (Windows, R 4.5.1):
+
+- checking for file 'lbugr/DESCRIPTION' ... OK
+- checking package namespace information ... OK
+- checking package dependencies ... OK
+- checking if this is a source package ... OK
+- checking for executable files ... OK
+- checking for hidden files and directories ... OK
+- checking for portable file names ... OK
+- checking whether package 'lbugr' can be installed ... OK
+- checking installed package size ... OK
+- checking code files for non-ASCII characters ... OK
+- checking R files for syntax errors ... OK
+- checking whether the package can be loaded ... OK
+- checking whether the package can be loaded with stated dependencies ... OK
+- checking dependencies in R code ... OK
+- checking Rd files ... OK
+- checking for missing documentation entries ... OK
+- checking examples ... OK
+- checking tests ... OK (testthat.R [15s])
+
+### Current Status
+
+All checks pass. Remaining notes (not errors):
+
+- LaTeX not available on this system (PDF manual generation skipped)
+- README.md/NEWS.md validation skipped (pandoc not available)
+- Vignettes are built during package installation on systems with pandoc installed
+
+### Comments from CRAN Reviewers
+
+We welcome feedback from CRAN maintainers on this initial submission.

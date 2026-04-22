@@ -1,0 +1,50 @@
+/* lbugr pkgdown theme styles */
+
+:root {
+  --lbugr-bg: #FAFAFA;
+  --lbugr-fg: #454545;
+  --lbugr-primary: #D48D3E;
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: var(--lbugr-bg) !important;
+  border-bottom: 2px solid var(--lbugr-primary);
+}
+
+.navbar-brand {
+  color: var(--lbugr-primary) !important;
+  font-weight: bold;
+}
+
+/* Links */
+a {
+  color: var(--lbugr-primary);
+}
+
+a:hover {
+  color: var(--lbugr-fg);
+}
+
+/* Code blocks */
+pre, code {
+  background-color: var(--lbugr-bg);
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Section headers */
+h1, h2, h3, h4 {
+  color: var(--lbugr-fg);
+}
+
+/* Badges */
+.badge {
+  background-color: var(--lbugr-primary);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--lbugr-bg);
+  border-top: 2px solid var(--lbugr-primary);
+}

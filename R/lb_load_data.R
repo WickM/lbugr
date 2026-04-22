@@ -54,7 +54,7 @@ validate_table_name <- function(table_name) {
 #'   RETURN a.name, b.name")
 #'   print(as.data.frame(result_rel))
 #' }
-#' @seealso \href{https://docs.ladybugdb.com/docs/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
+#' @seealso \href{https://ladybugdb.com/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
 lb_copy_from_df <- function(conn, df, table_name) {
   validate_table_name(table_name)
 
@@ -270,7 +270,7 @@ lb_create_table_from_df <- function(conn, df, table_name, primary_key) {
 #'   # Clean up the temporary file
 #'   unlink(csv_file)
 #' }
-#' @seealso \href{https://docs.ladybugdb.com/docs/import/csv}{Ladybug CSV Import}
+#' @seealso \href{https://ladybugdb.com/import/csv}{Ladybug CSV Import}
 lb_copy_from_csv <- function(
   conn,
   file_path,
@@ -318,7 +318,7 @@ lb_copy_from_csv <- function(
 #'   # Clean up the temporary file
 #'   unlink(json_file)
 #' }
-#' @seealso \href{https://docs.ladybugdb.com/docs/import/copy-from-json}{Ladybug JSON Import}, \href{https://docs.ladybugdb.com/docs/extensions/json}{Ladybug JSON Extension}
+#' @seealso \href{https://ladybugdb.com/import/copy-from-json}{Ladybug JSON Import}, \href{https://ladybugdb.com/extensions/json}{Ladybug JSON Extension}
 lb_copy_from_json <- function(conn, file_path, table_name) {
   # Ensure the JSON extension is installed and loaded
   tryCatch(
@@ -372,7 +372,7 @@ lb_copy_from_json <- function(conn, file_path, table_name) {
 #'     unlink(parquet_file)
 #'   }
 #' }
-#' @seealso \href{https://docs.ladybugdb.com/docs/import/parquet}{Ladybug Parquet Import}
+#' @seealso \href{https://ladybugdb.com/import/parquet}{Ladybug Parquet Import}
 lb_copy_from_parquet <- function(conn, file_path, table_name) {
   # Use the internal copy function to load data from the Parquet file
   lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
@@ -423,7 +423,7 @@ lb_copy_from_parquet <- function(conn, file_path, table_name) {
 #'
 #'  # lb_merge_df(conn, my_data_2, merge_statement_2)
 #'  }
-#' @seealso \href{https://docs.ladybugdb.com/docs/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
+#' @seealso \href{https://ladybugdb.com/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
 lb_merge_df <- function(conn, df, merge_query) {
   if (!is.character(merge_query) || length(merge_query) != 1L || !nzchar(merge_query)) {
     stop("`merge_query` must be a non-empty Cypher query string.", call. = FALSE)

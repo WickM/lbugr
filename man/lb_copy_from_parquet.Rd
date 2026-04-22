@@ -46,5 +46,5 @@ Loads data from a Parquet file into a specified table in the Ladybug database.
 }
 }
 \seealso{
-\href{https://docs.ladybugdb.com/docs/import/parquet}{Ladybug Parquet Import}
+\href{https://ladybugdb.com/import/parquet}{Ladybug Parquet Import}
 }

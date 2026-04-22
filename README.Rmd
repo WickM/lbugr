@@ -26,7 +26,7 @@ skip_vignette <- !reticulate::py_module_available("real_ladybug")
 
 ## Overview
 
-`lbugr` provides an R interface to the [Ladybug Graph Database](https://docs.ladybugdb.com/), a high-performance, embedded graph database. The package acts as a wrapper around the official Python `real_ladybug` client, using the `reticulate` package to bridge the two languages. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
+`lbugr` provides an R interface to the [Ladybug Graph Database](https://ladybugdb.com/), a high-performance, embedded graph database. The package acts as a wrapper around the official Python `real_ladybug` client, using the `reticulate` package to bridge the two languages. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
 
 The primary goal of `lbugr` is to provide an idiomatic R experience for:
 - Creating and managing Ladybug database instances.
@@ -42,7 +42,13 @@ The primary goal of `lbugr` is to provide an idiomatic R experience for:
 
 1. **Install the R Package**
 
-You can install the development version from GitHub:
+You can install the stable version from CRAN:
+
+``` r
+install.packages("lbugr")
+```
+
+Or install the development version from GitHub:
 
 ``` r
 # install.packages("pak")
@@ -148,5 +154,5 @@ lb_get_schema(query_result)
 ## Learning and Getting Help
 
 - For more detailed examples and workflows, please see the package vignettes.
-- For more detailed examples on how to use Ladybug Query see [Ladybug documentation](https://docs.ladybugdb.com/)
+- For more detailed examples on how to use Ladybug Query see [Ladybug documentation](https://ladybugdb.com/)
 - If you encounter a bug or have a feature request, please file an issue on [GitHub](https://github.com/WickM/lbugr/issues).

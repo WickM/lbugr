@@ -1,37 +1,33 @@
 Package: lbugr
 Title: Interface to 'ladybug' Graph Database
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
-    person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre"))
+    person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre", "cph"))
 Maintainer: Manuel Wick-Eckl <manuel.wick@gmail.com>
 Description: Provides a high-performance 'R' interface to the 'ladybug' graph database.
-    It uses the 'reticulate' package to wrap the official 'Python' client
-    ('ladybug'), allowing users to interact with 'ladybug'
-    seamlessly from within 'R'. Key features include managing database
-    connections, executing 'Cypher' queries, and efficiently loading data from
-    'R' data frames. It also provides seamless integration with the 'R' ecosystem
-    by converting query results directly into popular 'R' data structures,
-    including 'tibble', 'igraph', 'tidygraph', and 'g6R' objects, making
-    'ladybug's powerful graph computation capabilities readily available for data
-    analysis and visualization workflows in 'R'.
-    The 'ladybug' documentation can be found at <https://docs.ladybugdb.com/>.
+    Uses the 'reticulate' package to wrap the official Python 'real_ladybug' client.
+    Enables seamless interaction with Ladybug from within 'R' for managing database
+    connections, executing Cypher queries, and loading data from R data frames.
+    Converts query results into popular 'R' data structures including 'tibble',
+    'igraph', 'tidygraph', and 'g6R' objects for analysis and visualization workflows.
 URL: https://github.com/WickM/lbugr
 BugReports: https://github.com/WickM/lbugr/issues
 License: MIT
 Imports:
     reticulate,
-    digest
+    digest,
+    tibble
 Suggests:
     g6R,
     igraph,
-    tibble,
     tidygraph,
     jsonlite,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     spelling,
-    arrow
+    arrow,
+    withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
