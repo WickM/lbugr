@@ -1,0 +1,260 @@
+# lbugr - Ladybug Graph Database R Interface
+
+## Project Overview
+
+**lbugr** (LadyBug R) is an R package that provides an interface to the
+Ladybug Graph Database (<https://ladybugdb.com/>). Ladybug is a fork of
+the Kuzu graph database, which is no longer actively maintained. This
+package serves as the successor to kuzuR, adapting to work with the
+Ladybug database backend while maintaining the same core functionality
+and design philosophy.
+
+### Project Context
+
+``` mermaid
+graph TB
+    subgraph "R Ecosystem"
+        R[R Session]
+        lbugr[lbugr Package]
+    end
+
+    subgraph "Python Bridge"
+        reticulate[reticulate]
+        ladybug[ladybug Python Client]
+    end
+
+    subgraph "Database Layer"
+        ladybugdb[Ladybug Graph DB]
+    end
+
+    R --> lbugr
+    lbugr --> reticulate
+    reticulate --> ladybug
+    ladybug --> ladybugdb
+```
+
+## Background
+
+- **Predecessor**: kuzuR - R interface to Kuzu graph database
+- **Reason for Succession**: Kuzu is no longer actively maintained;
+  Ladybug is its fork
+- **API Similarity**: Ladybug maintains high compatibility with Kuzu’s
+  Python API
+- **Target Users**: R users who need to work with graph databases using
+  the Ladybug backend
+
+## Package Specification
+
+### Package Name and Metadata
+
+| Field        | Value                                                                                |
+|--------------|--------------------------------------------------------------------------------------|
+| Package Name | lbugr                                                                                |
+| Title        | Interface to Ladybug Graph Database                                                  |
+| Description  | Provides high-performance R interface to the Ladybug graph database using reticulate |
+| License      | MIT                                                                                  |
+
+### Dependencies
+
+#### Imports
+
+- `reticulate` - Python/R bridging
+- `igraph` - Graph data structures
+- `tibble` - Data frame improvements
+- `tidygraph` - Graph data manipulation
+- `digest` - Hashing utilities
+
+#### Suggests
+
+- `g6R` - Additional graph visualization
+- `jsonlite` - JSON handling
+- `testthat (>= 3.0.0)` - Testing framework
+- `knitR` - Documentation
+- `rmarkdown` - Dynamic documents
+- `spelling` - Spell checking
+- `arrow` - Apache Arrow support
+
+### Core Functionality
+
+#### 1. Connection Management
+
+- `lb_connection(db_path)` - Create/open a Ladybug database connection
+- Connection pooling and lifecycle management
+
+#### 2. Query Execution
+
+- `lb_execute(conn, query)` - Execute Cypher-like queries
+- Return query result objects for further processing
+
+#### 3. Data Loading
+
+- `lb_copy_from_df(conn, df, table_name)` - Load R data frames into
+  Ladybug
+- Support for node tables and relationship tables
+- Support for CSV, JSON, and Parquet file import
+- `lb_create_table_from_df(conn, df, table_name)` - Create tables from R
+  data frames
+
+#### 4. Result Conversion
+
+- `as.data.frame(result)` - Convert query results to data frames
+- `as_tibble(result)` - Convert to tibble format
+- `as_igraph(result)` - Convert to igraph objects
+- `as_tidygraph(result)` - Convert to tidygraph objects
+
+#### 5. Query Result Inspection
+
+- `lb_get_column_names(result)` - Get column names from query results
+- `lb_get_column_data_types(result)` - Get column data types
+- `lb_get_schema(result)` - Get full schema information
+- `lb_get_n(result)` - Get number of result rows
+- `lb_get_next(result)` - Iterate through results
+
+#### 6. Data Export
+
+- `lb_get_all(result)` - Retrieve all results at once
+
+### API Naming Convention
+
+The functions in lbugr follow the prefix `lb_` (Ladybug) to clearly
+indicate they interact with the Ladybug database:
+
+| kuzuR Function               | lbugr Equivalent             | Description                  |
+|------------------------------|------------------------------|------------------------------|
+| `kuzu_connection`            | `lb_connection`              | Create database connection   |
+| `kuzu_execute`               | `lb_execute`                 | Execute query                |
+| `kuzu_copy_from_df`          | `lb_copy_from_df`            | Copy data from data frame    |
+| `kuzu_create_table_from_df`  | `lb_create_table_from_df`    | Create table from data frame |
+| `kuzu_get_column_names`      | `lb_get_column_names`        | Get column names             |
+| `kuzu_get_column_data_types` | `lb_get_column_data_types`   | Get column data types        |
+| `kuzu_get_schema`            | `lb_get_schema`              | Get query schema             |
+| `kuzu_get_n`                 | `lb_get_n`                   | Get row count                |
+| `kuzu_get_next`              | `lb_get_next`                | Get next result              |
+| `kuzu_get_all`               | `lb_get_all`                 | Get all results              |
+| `as_igraph`                  | `as_igraph`                  | Convert to igraph            |
+| `as_tidygraph`               | `as_tidygraph`               | Convert to tidygraph         |
+| `check_kuzu_installation`    | `check_ladybug_installation` | Verify installation          |
+
+### Installation Requirements
+
+1.  Install the R package from GitHub
+
+2.  Install Python dependencies:
+
+    ``` r
+    library(lbugr)
+    reticulate::py_install("ladybug", pip = TRUE)
+    ```
+
+3.  Verify installation:
+
+    ``` r
+    check_ladybug_installation()
+    ```
+
+### Project Structure
+
+    lbugr/
+    ├── DESCRIPTION          # Package metadata
+    ├── NAMESPACE            # Package exports (generated by roxygen2)
+    ├── R/
+    │   ├── lb.R             # Core connection and query functions
+    │   ├── lb_load_data.R   # Data loading functions
+    │   ├── lb_graph.R       # Graph conversion functions
+    │   ├── lb_install.R     # Installation check
+    │   └── zzz.R            # Package initialization
+    ├── man/                 # Package documentation (generated by roxygen2)
+    ├── tests/
+    │   └── testthat/        # Test suite
+    └── vignettes/           # Usage vignettes
+
+## Development Workflow
+
+### Common Development Commands
+
+``` r
+# Load package for development (without installing)
+devtools::load_all()
+
+# Run tests
+devtools::test()
+
+# Generate documentation from roxygen2 comments
+devtools::document()
+
+# Check package for issues
+devtools::check()
+```
+
+### Workflow Steps
+
+1.  **Setup**: Clone repository, install dependencies
+2.  **Development**: Implement functions following kuzuR patterns, using
+    roxygen2 `@export` tags
+3.  **Documentation**: Run `devtools::document()` to generate NAMESPACE
+    and man pages
+4.  **Testing**: Run `devtools::test()` to execute testthat tests
+5.  **Verification**: Run `devtools::check()` to verify package
+    integrity
+
+### Important Notes
+
+- **NAMESPACE**: Do not edit manually - use roxygen2 `@export` tags in R
+  files and run `devtools::document()`
+- **Testing**: All tests should be in `tests/testthat/` directory
+- **Documentation**: Add roxygen2 comments (`#'`) above each exported
+  function
+
+## Migration from kuzuR
+
+Key differences between kuzuR and lbugr:
+
+1.  **Package name**: `kuzuR` → `lbugr`
+2.  **Function prefix**: `kuzu_` → `lb_`
+3.  **Python package**: `kuzu` → `ladybug`
+4.  **Installation check**: `check_kuzu_installation()` →
+    [`check_ladybug_installation()`](https://wickm.github.io/lbugr/reference/check_ladybug_installation.md)
+
+### Code Migration Example
+
+**kuzuR code:**
+
+``` r
+library(kuzuR)
+con <- kuzu_connection(db_path)
+kuzu_execute(con, "MATCH (n) RETURN n")
+kuzu_copy_from_df(con, df, "NodeTable")
+```
+
+**lbugr code:**
+
+``` r
+library(lbugr)
+con <- lb_connection(db_path)
+lb_execute(con, "MATCH (n) RETURN n")
+lb_copy_from_df(con, df, "NodeTable")
+```
+
+## Status
+
+Initial package setup
+
+Connection management implementation
+
+Query execution implementation
+
+Data loading implementation
+
+Result conversion implementation
+
+Test suite development
+
+Documentation and vignettes
+
+CRAN submission preparation
+
+## References
+
+- Ladybug Database: <https://ladybugdb.com/>
+- Ladybug Documentation: <https://ladybugdb.com/>
+- kuzuR (predecessor): <https://github.com/WickM/kuzuR>
