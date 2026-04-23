@@ -10,7 +10,7 @@ Description: Provides a high-performance 'R' interface to the 'ladybug' graph da
     connections, executing Cypher queries, and loading data from R data frames.
     Converts query results into popular 'R' data structures including 'tibble',
     'igraph', 'tidygraph', and 'g6R' objects for analysis and visualization workflows.
-URL: https://github.com/WickM/lbugr
+URL: https://wickm.github.io/lbugr, https://github.com/WickM/lbugr
 BugReports: https://github.com/WickM/lbugr/issues
 License: MIT + file LICENSE
 Imports:

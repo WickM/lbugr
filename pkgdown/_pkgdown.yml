@@ -48,10 +48,10 @@ reference:
   - lb_get_schema
 - title: "Data Loading"
   contents:
-  - lb_copy_from_csv
-  - as.data.frame.ladybug.query_result.QueryResult
-  - as_tibble.ladybug.query_result.QueryResult
-  - lb_copy_from_df
+    - lb_copy_from_csv
+    - as.data.frame.real_ladybug.query_result.QueryResult
+    - as_tibble.real_ladybug.query_result.QueryResult
+    - lb_copy_from_df
   - lb_create_table_from_df
   - lb_copy_from_json
   - lb_copy_from_parquet
