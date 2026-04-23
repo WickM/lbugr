@@ -52,10 +52,10 @@ reference:
     - as.data.frame.real_ladybug.query_result.QueryResult
     - as_tibble.real_ladybug.query_result.QueryResult
     - lb_copy_from_df
-  - lb_create_table_from_df
-  - lb_copy_from_json
-  - lb_copy_from_parquet
-  - lb_merge_df
+    - lb_create_table_from_df
+    - lb_copy_from_json
+    - lb_copy_from_parquet
+    - lb_merge_df
 - title: "Graph Integrations"
   contents:
   - as_igraph
