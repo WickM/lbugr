@@ -24,3 +24,5 @@
 ^debug_test\.R$
 ^pkgdown$
 ^test_output\.txt$
+^\.agents$
+^README\\.Rmd$

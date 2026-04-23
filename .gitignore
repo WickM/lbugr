@@ -4,3 +4,4 @@ test_output.txt
 ..Rcheck/00check.log
 .github/workflows/R-CMD-check.yaml
 debug_test.R
+.Rprofile
