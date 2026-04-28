@@ -10,9 +10,9 @@
 <url><loc>https://wickm.github.io/lbugr/authors.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/index.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/news/index.html</loc></url>
-<url><loc>https://wickm.github.io/lbugr/reference/as.data.frame.real_ladybug.query_result.QueryResult.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/as.data.frame.ladybug.query_result.QueryResult.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/as_igraph.html</loc></url>
-<url><loc>https://wickm.github.io/lbugr/reference/as_tibble.real_ladybug.query_result.QueryResult.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/as_tibble.ladybug.query_result.QueryResult.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/as_tidygraph.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/check_ladybug_installation.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/convert_python_to_r.html</loc></url>

@@ -3,8 +3,8 @@
 ## lbugr 0.1.0
 
 - Initial release of `lbugr`.
-- Provides a wrapper around the official Python `real_ladybug` client
-  using `reticulate`.
+- Provides a wrapper around the official Python `ladybug` client using
+  `reticulate`.
 - Core functionality includes:
   - Connecting to a Ladybug database (`lb_connection`).
   - Executing Cypher queries (`lb_execute`).

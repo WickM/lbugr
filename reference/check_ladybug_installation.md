@@ -1,10 +1,9 @@
 # Check for Ladybug Python Dependencies
 
-This function checks if the required Python package (`ladybug` or
-`real_ladybug`) is available in the user's `reticulate` environment. The
-package may be installed under either name - `ladybug` (preferred) or
-`real_ladybug` (legacy). If the package is missing, it provides a clear,
-actionable message guiding the user on how to install it manually.
+This function checks if the required Python package (`ladybug`) is
+available in the user's `reticulate` environment. If the package is
+missing, it provides a clear, actionable message guiding the user on how
+to install it manually.
 
 ## Usage
 

@@ -23,9 +23,9 @@
 
 - [`lb_copy_from_csv()`](https://wickm.github.io/lbugr/reference/lb_copy_from_csv.md)
   : Load Data from a CSV File into a Ladybug Table
-- [`as.data.frame(`*`<real_ladybug.query_result.QueryResult>`*`)`](https://wickm.github.io/lbugr/reference/as.data.frame.real_ladybug.query_result.QueryResult.md)
+- [`as.data.frame(`*`<ladybug.query_result.QueryResult>`*`)`](https://wickm.github.io/lbugr/reference/as.data.frame.ladybug.query_result.QueryResult.md)
   : Convert a Ladybug Query Result to a Data Frame
-- [`as_tibble(`*`<real_ladybug.query_result.QueryResult>`*`)`](https://wickm.github.io/lbugr/reference/as_tibble.real_ladybug.query_result.QueryResult.md)
+- [`as_tibble(`*`<ladybug.query_result.QueryResult>`*`)`](https://wickm.github.io/lbugr/reference/as_tibble.ladybug.query_result.QueryResult.md)
   : Convert a Ladybug Query Result to a Tibble
 - [`lb_copy_from_df()`](https://wickm.github.io/lbugr/reference/lb_copy_from_df.md)
   : Load Data from a Data Frame or Tibble into a Ladybug Table
