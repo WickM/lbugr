@@ -1,14 +1,25 @@
-/* lbugr pkgdown theme styles */
+/* lbugr pkgdown theme styles - LadybugDB Theme */
 
 :root {
-  --lbugr-bg: #FAFAFA;
-  --lbugr-fg: #454545;
-  --lbugr-primary: #D48D3E;
+  --lbugr-bg: #0A0A1A;
+  --lbugr-bg-secondary: #111827;
+  --lbugr-fg: #FFFFFF;
+  --lbugr-fg-muted: #94A3B8;
+  --lbugr-primary: #DC2626;
+  --lbugr-primary-light: #EF4444;
+  --lbugr-primary-dark: #B91C1C;
+  --lbugr-border: #1F2937;
+  --lbugr-code-bg: #111827;
+}
+
+body {
+  background-color: var(--lbugr-bg) !important;
+  color: var(--lbugr-fg) !important;
 }
 
 /* Navbar styling */
 .navbar {
-  background-color: var(--lbugr-bg) !important;
+  background-color: var(--lbugr-bg-secondary) !important;
   border-bottom: 2px solid var(--lbugr-primary);
 }
 
@@ -17,34 +28,97 @@
   font-weight: bold;
 }
 
+.navbar-nav .nav-link {
+  color: var(--lbugr-fg-muted) !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--lbugr-primary-light) !important;
+}
+
 /* Links */
 a {
-  color: var(--lbugr-primary);
+  color: var(--lbugr-primary-light);
 }
 
 a:hover {
+  color: var(--lbugr-primary);
+}
+
+/* Section headers */
+h1, h2, h3, h4, h5, h6 {
   color: var(--lbugr-fg);
+}
+
+h1 {
+  background: linear-gradient(135deg, var(--lbugr-primary) 0%, var(--lbugr-primary-light) 50%, var(--lbugr-primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Code blocks */
 pre, code {
-  background-color: var(--lbugr-bg);
-  border: 1px solid #e0e0e0;
+  background-color: var(--lbugr-code-bg);
+  border: 1px solid var(--lbugr-border);
   border-radius: 4px;
+  color: var(--lbugr-fg-muted);
 }
 
-/* Section headers */
-h1, h2, h3, h4 {
+/* Tables */
+table {
+  border-color: var(--lbugr-border);
+}
+
+th {
+  background-color: var(--lbugr-bg-secondary);
   color: var(--lbugr-fg);
+  border-color: var(--lbugr-border);
+}
+
+td {
+  border-color: var(--lbugr-border);
 }
 
 /* Badges */
 .badge {
   background-color: var(--lbugr-primary);
+  color: var(--lbugr-fg);
 }
 
 /* Footer */
 .footer {
-  background-color: var(--lbugr-bg);
+  background-color: var(--lbugr-bg-secondary);
   border-top: 2px solid var(--lbugr-primary);
+  color: var(--lbugr-fg-muted);
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--lbugr-bg-secondary);
+  border-right: 1px solid var(--lbugr-border);
+}
+
+/* Cards */
+.card {
+  background-color: var(--lbugr-bg-secondary);
+  border-color: var(--lbugr-border);
+}
+
+/* Form inputs */
+input, textarea, select {
+  background-color: var(--lbugr-bg-secondary);
+  color: var(--lbugr-fg);
+  border-color: var(--lbugr-border);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left-color: var(--lbugr-primary);
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+/* Hero glow effect for logo */
+.logo-container {
+  filter: drop-shadow(0 0 20px rgba(220, 38, 38, 0.3));
 }

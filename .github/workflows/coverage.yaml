@@ -35,8 +35,8 @@ jobs:
       # Install the required Python package for lbugr
       - name: Install Python dependencies
         run: |
-          # Install real_ladybug via reticulate as recommended by the package
-          Rscript -e 'reticulate::py_install("real_ladybug", pip = TRUE)'
+          # Install ladybug via reticulate as recommended by the package
+          Rscript -e 'reticulate::py_install("ladybug", pip = TRUE)'
         shell: bash
 
       # This step installs system libs for igraph/tidygraph and other dependencies
@@ -70,13 +70,10 @@ jobs:
             print('covr available:')
             print('covr' %in% rownames(installed.packages()))
             ladybug_available <- reticulate::py_module_available('ladybug')
-            real_ladybug_available <- reticulate::py_module_available('real_ladybug')
             print('ladybug available:')
             print(ladybug_available)
-            print('real_ladybug available:')
-            print(real_ladybug_available)
-            if (!ladybug_available && !real_ladybug_available) {
-              warning('Neither ladybug nor real_ladybug Python packages are available')
+            if (!ladybug_available) {
+              warning('ladybug Python package is not available')
             }
           "
         shell: bash

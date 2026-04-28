@@ -3,30 +3,26 @@
 lbugr <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  # Try ladybug first (preferred name), fall back to real_ladybug (legacy name)
-  ladybug_available <- reticulate::py_module_available("ladybug")
-  real_ladybug_available <- reticulate::py_module_available("real_ladybug")
+  if (reticulate::py_module_available("ladybug")) {
+    lbugr <<- reticulate::import("ladybug", delay_load = TRUE)
 
-  pkg_name <- if (ladybug_available) {
-    "ladybug"
-  } else if (real_ladybug_available) {
-    "real_ladybug"
-  } else {
-    NULL
-  }
-
-  if (!is.null(pkg_name)) {
-    lbugr <<- reticulate::import(pkg_name, delay_load = TRUE)
+    # Check if this is the correct LadybugDB package (not the old CSV package v0.0.2)
+    if (!"Database" %in% names(lbugr)) {
+      stop(
+        "The installed 'ladybug' Python package is outdated.\n",
+        "You have the old CSV handling package (v0.0.2), not the LadybugDB graph database.\n",
+        "\nPlease upgrade with: reticulate::py_install('ladybug', pip = TRUE)",
+        call. = FALSE
+      )
+    }
   }
 }
 
 .onAttach <- function(libname, pkgname) {
-  # Check for ladybug or real_ladybug and provide a helpful message if not found
   if (interactive()) {
     ladybug_available <- reticulate::py_module_available("ladybug")
-    real_ladybug_available <- reticulate::py_module_available("real_ladybug")
 
-    if (!ladybug_available && !real_ladybug_available) {
+    if (!ladybug_available) {
       msg <- paste(
         "The 'ladybug' Python package is not installed.",
         "\nPlease install it using: reticulate::py_install('ladybug', pip = TRUE)"

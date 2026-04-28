@@ -5,6 +5,23 @@ vignette: >
   %\VignetteIndexEntry{Getting Started with lbugr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+header-includes:
+  - |
+    ```{=html}
+    <style>
+      body { background-color: #0A0A1A; color: #FFFFFF; }
+      h1, h2, h3 { color: #FFFFFF; }
+      h1 { background: linear-gradient(135deg, #DC2626 0%, #EF4444 50%, #B91C1C 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      a { color: #EF4444; }
+      a:hover { color: #DC2626; }
+      code { background-color: #111827; color: #94A3B8; border: 1px solid #1F2937; }
+      pre { background-color: #111827; color: #94A3B8; border: 1px solid #1F2937; }
+      table { border-color: #1F2937; }
+      th { background-color: #111827; color: #FFFFFF; border-color: #1F2937; }
+      td { border-color: #1F2937; }
+      blockquote { border-left-color: #DC2626; background-color: rgba(220, 38, 38, 0.1); }
+    </style>
+    ```
 ---
 
 ```{r setup, include = FALSE}

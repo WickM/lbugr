@@ -70,7 +70,6 @@ lb_connection <- function(path) {
   }
 
   # Use the globally initialized lbugr object (from zzz.R)
-  # This handles both 'ladybug' and 'real_ladybug' package names
   lb <- lbugr
 
   main <- reticulate::import_main(convert = FALSE)
@@ -128,7 +127,7 @@ lb_execute <- function(conn, query) {
 #' @param x A Ladybug query result object.
 #' @param ... Additional arguments passed to `as.data.frame`.
 #' @return An R `data.frame` containing the query results.
-#' @method as.data.frame real_ladybug.query_result.QueryResult
+#' @method as.data.frame ladybug.query_result.QueryResult
 #' @export
 #' @examples
 #' \donttest{
@@ -142,7 +141,7 @@ lb_execute <- function(conn, query) {
 #' df <- as.data.frame(result)
 #' print(df)
 #' }
-as.data.frame.real_ladybug.query_result.QueryResult <- function(x, ...) {
+as.data.frame.ladybug.query_result.QueryResult <- function(x, ...) {
   query_result_to_df(x)
 }
 
@@ -155,7 +154,7 @@ as.data.frame.real_ladybug.query_result.QueryResult <- function(x, ...) {
 #' @param ... Additional arguments passed to `as_tibble`.
 #' @return A `tibble` containing the query results.
 #' @importFrom tibble as_tibble
-#' @method as_tibble real_ladybug.query_result.QueryResult
+#' @method as_tibble ladybug.query_result.QueryResult
 #' @export
 #' @examples
 #' \donttest{
@@ -171,7 +170,7 @@ as.data.frame.real_ladybug.query_result.QueryResult <- function(x, ...) {
 #'   print(tbl)
 #' }
 #' }
-as_tibble.real_ladybug.query_result.QueryResult <- function(x, ...) {
+as_tibble.ladybug.query_result.QueryResult <- function(x, ...) {
   if (!requireNamespace("tibble", quietly = TRUE)) {
     stop(
       "The 'tibble' package is required to use as_tibble(). Please install it.",

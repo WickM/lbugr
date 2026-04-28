@@ -3,9 +3,7 @@
 # Test check_ladybug_installation returns message when ladybug is available
 test_that("check_ladybug_installation succeeds when ladybug is available", {
   ladybug_avail <- reticulate::py_module_available("ladybug")
-  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
-
-  if (ladybug_avail || real_ladybug_avail) {
+  if (ladybug_avail) {
     # Should not throw an error - use quiet = TRUE to suppress message
     expect_silent(check_ladybug_installation(quiet = TRUE))
   } else {
@@ -50,19 +48,7 @@ test_that("reticulate can import Python builtins", {
 test_that("ladybug module has expected classes", {
   skip_if_no_ladybug()
 
-  # Try ladybug first, then real_ladybug
-  ladybug_avail <- reticulate::py_module_available("ladybug")
-  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
-
-  ladybug <- if (ladybug_avail) {
-    tryCatch(reticulate::import("ladybug"), error = function(e) NULL)
-  } else {
-    NULL
-  }
-
-  if (is.null(ladybug) && real_ladybug_avail) {
-    ladybug <- tryCatch(reticulate::import("real_ladybug"), error = function(e) NULL)
-  }
+  ladybug <- tryCatch(reticulate::import("ladybug"), error = function(e) NULL)
 
   skip_if(is.null(ladybug), "Could not import ladybug module")
 

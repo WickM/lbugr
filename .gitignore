@@ -5,3 +5,4 @@ test_output.txt
 .github/workflows/R-CMD-check.yaml
 debug_test.R
 .Rprofile
+docs/

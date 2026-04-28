@@ -2,11 +2,11 @@ url: https://wickm.github.io/lbugr/
 template:
   bootstrap: 5
   bslib:
-    bg: "#FAFAFA"
-    fg: "#454545"
-    primary: "#D48D3E"
-    base_font: {google: "Open Sans"}
-    heading_font: {google: "Montserrat"}
+    bg: "#0A0A1A"
+    fg: "#FFFFFF"
+    primary: "#DC2626"
+    base_font: {google: "Inter"}
+    heading_font: {google: "Inter"}
     code_font: {google: "Fira Code"}
   params:
     logo:
@@ -49,8 +49,8 @@ reference:
 - title: "Data Loading"
   contents:
     - lb_copy_from_csv
-    - as.data.frame.real_ladybug.query_result.QueryResult
-    - as_tibble.real_ladybug.query_result.QueryResult
+    - as.data.frame.ladybug.query_result.QueryResult
+    - as_tibble.ladybug.query_result.QueryResult
     - lb_copy_from_df
     - lb_create_table_from_df
     - lb_copy_from_json

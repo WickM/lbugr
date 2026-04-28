@@ -8,9 +8,8 @@
 #' @keywords internal
 skip_if_no_ladybug <- function() {
   ladybug_avail <- reticulate::py_module_available("ladybug")
-  real_ladybug_avail <- reticulate::py_module_available("real_ladybug")
 
-  if (!ladybug_avail && !real_ladybug_avail) {
+  if (!ladybug_avail) {
     skip("ladybug Python package not available")
   }
 }

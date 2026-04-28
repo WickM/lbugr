@@ -37,7 +37,7 @@ jobs:
 
       - name: Install python dependencies
         run: |
-          pip install real_ladybug
+          pip install ladybug
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

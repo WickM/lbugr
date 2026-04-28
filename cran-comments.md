@@ -5,7 +5,7 @@ This is the initial submission of `lbugr`, an R interface to the Ladybug Graph D
 ### Summary
 
 - Provides high-performance R interface to the Ladybug graph database
-- Uses `reticulate` to wrap the official Python `real_ladybug` client
+- Uses `reticulate` to wrap the official Python `ladybug` client
 - Maintains API compatibility with the predecessor package `kuzuR`
 - All function names use `lb_` prefix (Ladybug) to avoid conflicts
 
@@ -24,11 +24,11 @@ This is the initial submission of `lbugr`, an R interface to the Ladybug Graph D
 
 - **Imports**: reticulate, digest, tibble
 - **Suggests**: g6R, igraph, tidygraph, jsonlite, testthat (>= 3.0.0), knitr, rmarkdown, spelling, arrow, withr
-- **Python**: Requires `real_ladybug` Python package (Python 3.14+ recommended)
+- **Python**: Requires `ladybug` Python package (Python 3.14+ recommended)
 
 ### Note on Python Dependency
 
-The package requires the `real_ladybug` Python package. Installation instructions are provided in the Description field and in the README. Users must install this Python package separately using `reticulate::py_install("real_ladybug", pip = TRUE)`.
+The package requires the `ladybug` Python package. Installation instructions are provided in the Description field and in the README. Users must install this Python package separately using `reticulate::py_install("ladybug", pip = TRUE)`.
 
 **Note**: Python 3.14+ is required due to fixes in the underlying kuzu database engine that resolve VirtualAlloc memory issues on Windows with Python 3.13+.
 

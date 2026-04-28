@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-skip_vignette <- !reticulate::py_module_available("real_ladybug")
+skip_vignette <- !reticulate::py_module_available("ladybug")
 ```
 
 # lbugr <img src="man/figures/logo.png" align="right" height="138"/>
@@ -26,7 +26,7 @@ skip_vignette <- !reticulate::py_module_available("real_ladybug")
 
 ## Overview
 
-`lbugr` provides an R interface to the [Ladybug Graph Database](https://ladybugdb.com/), a high-performance, embedded graph database. The package acts as a wrapper around the official Python `real_ladybug` client, using the `reticulate` package to bridge the two languages. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
+`lbugr` provides an R interface to the [Ladybug Graph Database](https://ladybugdb.com/), a high-performance, embedded graph database. The package acts as a wrapper around the official Python `ladybug` client, using the `reticulate` package to bridge the two languages. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
 
 The primary goal of `lbugr` is to provide an idiomatic R experience for:
 - Creating and managing Ladybug database instances.
@@ -36,7 +36,7 @@ The primary goal of `lbugr` is to provide an idiomatic R experience for:
 
 ## Installation
 
-`lbugr` requires **Python 3.14 or later** with the `real_ladybug` package.
+`lbugr` requires **Python 3.14 or later** with the `ladybug` package.
 
 > **Note**: Python 3.14+ is required due to fixes in the underlying kuzu database engine that resolve VirtualAlloc memory issues.
 
@@ -61,7 +61,7 @@ After installing `lbugr`, you must install the required Python packages. You can
 
 ``` r
 library(lbugr)
-reticulate::py_install("real_ladybug", pip = TRUE)
+reticulate::py_install("ladybug", pip = TRUE)
 ```
 
 > **Important**: Ensure you have Python 3.14 or later installed. You can verify your Python version with `py -3.14 --version` (Windows) or `python3 --version` (macOS/Linux).
@@ -72,7 +72,7 @@ You can check that all dependencies are correctly installed by running:
 
 ``` r
 check_ladybug_installation()
-#> The 'real_ladybug' Python package is installed and available.
+#> The 'ladybug' Python package is installed and available.
 ```
 
 ## Usage

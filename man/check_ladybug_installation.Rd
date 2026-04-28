@@ -14,11 +14,9 @@ check_ladybug_installation(quiet = FALSE)
 checking dependencies and printing messages.
 }
 \description{
-This function checks if the required Python package (\code{ladybug} or \code{real_ladybug})
-is available in the user's \code{reticulate} environment. The package may be
-installed under either name - \code{ladybug} (preferred) or \code{real_ladybug}
-(legacy). If the package is missing, it provides a clear, actionable message
-guiding the user on how to install it manually.
+This function checks if the required Python package (\code{ladybug})
+is available in the user's \code{reticulate} environment. If the package is missing,
+it provides a clear, actionable message guiding the user on how to install it manually.
 }
 \examples{
 \donttest{
