@@ -1,14 +1,14 @@
 /* lbugr pkgdown theme styles - LadybugDB Theme */
 
 :root {
-  --lbugr-bg: #0A0A1A;
+  --lbugr-bg: #030712;
   --lbugr-bg-secondary: #111827;
-  --lbugr-fg: #FFFFFF;
-  --lbugr-fg-muted: #94A3B8;
-  --lbugr-primary: #DC2626;
-  --lbugr-primary-light: #EF4444;
-  --lbugr-primary-dark: #B91C1C;
-  --lbugr-border: #1F2937;
+  --lbugr-fg: #f3f4f6;
+  --lbugr-fg-muted: #9ca3af;
+  --lbugr-primary: #dc2626;
+  --lbugr-primary-light: #ef4444;
+  --lbugr-primary-dark: #b91c1c;
+  --lbugr-border: #1f2937;
   --lbugr-code-bg: #111827;
 }
 
@@ -34,6 +34,14 @@ body {
 
 .navbar-nav .nav-link:hover {
   color: var(--lbugr-primary-light) !important;
+}
+
+/* Logo size constraint */
+.navbar img[src*="logo"],
+.navbar .logo img {
+  max-height: 40px !important;
+  width: auto !important;
+  height: auto !important;
 }
 
 /* Links */
@@ -116,9 +124,4 @@ input, textarea, select {
 blockquote {
   border-left-color: var(--lbugr-primary);
   background-color: rgba(220, 38, 38, 0.1);
-}
-
-/* Hero glow effect for logo */
-.logo-container {
-  filter: drop-shadow(0 0 20px rgba(220, 38, 38, 0.3));
 }

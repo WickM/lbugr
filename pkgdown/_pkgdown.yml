@@ -10,8 +10,9 @@ template:
     code_font: {google: "Fira Code"}
   params:
     logo:
-      src: man/figures/lbugrHex.png
-    favicon: man/figures/lbugrHex.png
+      src: man/figures/logo.png
+      height: 40
+    favicon: man/figures/logo.png
   assets:
     css: pkgdown/assets/lbugr_style.css
 navbar:
