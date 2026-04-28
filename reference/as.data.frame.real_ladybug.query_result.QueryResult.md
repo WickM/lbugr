@@ -49,7 +49,7 @@ print(df)
 #>         .Call(C_df, x, df1, df2, log)
 #>     else .Call(C_dnf, x, df1, df2, ncp, log)
 #> }
-#> <bytecode: 0x55a8326eb6b0>
+#> <bytecode: 0x55fc67f6e618>
 #> <environment: namespace:stats>
 # }
 ```

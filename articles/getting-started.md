@@ -12,8 +12,6 @@ Kuzu graph database.
 First, ensure you have the `lbugr` package installed. You will also need
 `reticulate` to manage the Python environment.
 
-\#ToDo Wrong pytho paket real ladybug is the one we use
-
 ``` r
 # Install lbugr from GitHub
 remotes::install_github("your-github-repo/lbugr")
