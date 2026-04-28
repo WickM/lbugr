@@ -64,7 +64,15 @@ print(igraph_graph)
 
 V(igraph_graph)$label <- igraph::V(igraph_graph)$name
 E(igraph_graph)$label <- "knows"
-plot(igraph_graph)
+plot(igraph_graph,
+     vertex.color = "#dc2626",
+     vertex.label.color = "#f3f4f6",
+     vertex.label.font = 2,
+     edge.color = "#9ca3af",
+     edge.arrow.size = 0.8,
+     edge.arrow.width = 0.5,
+     bg = "#030712",
+     main = "igraph Graph")
 ```
 
 You can now perform standard `igraph` operations on `igraph_graph`.
@@ -87,7 +95,12 @@ tidygraph_graph <- as_tidygraph(graph_query_result)
 
 # Print the tidygraph object summary
 print(tidygraph_graph)
-plot(tidygraph_graph)
+ggraph::ggraph(tidygraph_graph, layout = "kk") +
+  ggraph::geom_edge_arrow(color = "#9ca3af", arrow.fill = "#9ca3af", end_cap = ggraph::arrow(angle = 30, length = grid::unit(3, "mm"))) +
+  ggraph::geom_node_point(color = "#dc2626", size = 8) +
+  ggraph::geom_node_text(ggplot2::aes(label = name), color = "#f3f4f6", size = 4, vjust = -1) +
+  ggplot2::theme_void() +
+  ggplot2::theme(plot.background = ggplot2::element_rect(fill = "#030712", color = NA))
 ```
 
 ## Interactive Visualization with `g6R`

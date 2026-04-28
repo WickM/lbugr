@@ -128,11 +128,19 @@ graph_result <- lb_execute(con, "MATCH (a:Person)-[k:Knows]->(b:Person) RETURN a
 # a) Convert to an igraph object
 g_igraph <- as_igraph(graph_result)
 print(g_igraph)
-#> IGRAPH fdeb33a DN-- 3 2 -- 
+#> IGRAPH 92733d3 DN-- 3 2 -- 
 #> + attr: name (v/c), label (v/l), age (v/l)
-#> + edges from fdeb33a (vertex names):
+#> + edges from 92733d3 (vertex names):
 #> [1] Person:Alice->Person:Bob   Person:Bob  ->Person:Carol
-plot(g_igraph)
+plot(g_igraph,
+     vertex.color = "#dc2626",
+     vertex.label.color = "#f3f4f6",
+     vertex.label.font = 2,
+     edge.color = "#9ca3af",
+     edge.arrow.size = 0.8,
+     edge.arrow.width = 0.5,
+     bg = "#030712",
+     main = "lbugr Graph Structure")
 
 # b) Convert to a tidygraph object
 g_tidy <- as_tidygraph(graph_result)

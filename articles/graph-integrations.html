@@ -136,7 +136,15 @@ an <code>igraph</code> object.</p>
 <span></span>
 <span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="st">"knows"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">igraph_graph</span>,</span>
+<span>     vertex.color <span class="op">=</span> <span class="st">"#dc2626"</span>,</span>
+<span>     vertex.label.color <span class="op">=</span> <span class="st">"#f3f4f6"</span>,</span>
+<span>     vertex.label.font <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>     edge.color <span class="op">=</span> <span class="st">"#9ca3af"</span>,</span>
+<span>     edge.arrow.size <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>     edge.arrow.width <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>     bg <span class="op">=</span> <span class="st">"#030712"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"igraph Graph"</span><span class="op">)</span></span></code></pre></div>
 <p>You can now perform standard <code>igraph</code> operations on
 <code>igraph_graph</code>.</p>
 </div>
@@ -159,7 +167,12 @@ via <code><a href="../reference/as_tidygraph.html">as_tidygraph()</a></code>.</p
 <span></span>
 <span><span class="co"># Print the tidygraph object summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tidygraph_graph</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tidygraph_graph</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu">ggraph</span><span class="op">(</span><span class="va">tidygraph_graph</span>, layout <span class="op">=</span> <span class="st">"kk"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu">geom_edge_arrow</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#9ca3af"</span>, arrow.fill <span class="op">=</span> <span class="st">"#9ca3af"</span>, end_cap <span class="op">=</span> <span class="fu">ggraph</span><span class="fu">::</span><span class="fu">arrow</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">30</span>, length <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"mm"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu">geom_node_point</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#dc2626"</span>, size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu">geom_node_text</span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="va">name</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"#f3f4f6"</span>, size <span class="op">=</span> <span class="fl">4</span>, vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu">theme_void</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu">theme</span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu">element_rect</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#030712"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
