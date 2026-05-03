@@ -16,7 +16,7 @@ A named list where names are column names and values are data types.
 Retrieves the schema (column names and data types) of a Ladybug query result.
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")

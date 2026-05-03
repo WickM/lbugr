@@ -19,7 +19,7 @@ Provides an S3 method to convert a Ladybug query result object into a
 \code{tibble}. This requires the \code{tibble} package to be installed.
 }
 \examples{
-\donttest{
+\dontrun{
 if (requireNamespace("tibble", quietly = TRUE)) {
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,

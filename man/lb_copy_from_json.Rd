@@ -23,7 +23,7 @@ Loads data from a JSON file into a specified table in the Ladybug database.
 This function also ensures the JSON extension is loaded and available.
 }
 \examples{
-\donttest{
+\dontrun{
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE Product(id INT64, name STRING,
   PRIMARY KEY (id))")

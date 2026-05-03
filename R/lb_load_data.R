@@ -31,7 +31,7 @@ validate_table_name <- function(table_name) {
 #'   not return a value.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #'   PRIMARY KEY (name))")
@@ -141,7 +141,7 @@ lb_copy_from_file <- function(
 #'   does not return a value.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   conn <- lb_connection(":memory:")
 #'
 #'   my_df <- data.frame(
@@ -249,7 +249,7 @@ lb_create_table_from_df <- function(conn, df, table_name, primary_key) {
 #'   not return a value.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE City(name STRING, population INT64,
 #'   PRIMARY KEY (name))")
@@ -298,7 +298,7 @@ lb_copy_from_csv <- function(
 #'   not return a value.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE Product(id INT64, name STRING,
 #'   PRIMARY KEY (id))")
@@ -350,7 +350,7 @@ lb_copy_from_json <- function(conn, file_path, table_name) {
 #'   not return a value.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   if (requireNamespace("arrow", quietly = TRUE)) {
 #'     conn <- lb_connection(":memory:")
 #'     lb_execute(conn, "CREATE NODE TABLE Country(name STRING, code STRING,

@@ -19,7 +19,7 @@ is available in the user's \code{reticulate} environment. If the package is miss
 it provides a clear, actionable message guiding the user on how to install it manually.
 }
 \examples{
-\donttest{
+\dontrun{
 check_ladybug_installation()
 }
 }

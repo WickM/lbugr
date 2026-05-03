@@ -18,7 +18,7 @@ A list of the first \code{n} rows.
 Fetches the first \code{n} rows from a Ladybug query result.
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")

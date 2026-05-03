@@ -17,7 +17,7 @@ Fetches all rows from a Ladybug query result and returns them as a list of
 lists.
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")

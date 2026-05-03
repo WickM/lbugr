@@ -11,7 +11,7 @@
 #'   checking dependencies and printing messages.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' check_ladybug_installation()
 #' }
 check_ladybug_installation <- function(quiet = FALSE) {

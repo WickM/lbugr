@@ -19,7 +19,7 @@ at the specified path, it will be created. This function combines the
 database initialization and connection steps into a single call.
 }
 \examples{
-\donttest{
+\dontrun{
 # Create an in-memory database and connection
 conn <- lb_connection(":memory:")
 

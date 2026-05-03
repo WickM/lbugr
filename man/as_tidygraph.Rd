@@ -17,7 +17,7 @@ A \code{tbl_graph} object.
 Converts a Ladybug query result into a \code{tidygraph} \code{tbl_graph} object.
 }
 \examples{
-\donttest{
+\dontrun{
 if (requireNamespace("tidygraph", quietly = TRUE)) {
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING,

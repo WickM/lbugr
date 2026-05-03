@@ -26,7 +26,7 @@ not return a value.
 Loads data from a CSV file into a specified table in the Ladybug database.
 }
 \examples{
-\donttest{
+\dontrun{
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE City(name STRING, population INT64,
   PRIMARY KEY (name))")

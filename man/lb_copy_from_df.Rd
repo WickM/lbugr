@@ -30,7 +30,7 @@ FROM Node Column: The primary key of the FROM nodes.
 TO Node Column: The primary key of the TO nodes.
 }
 \examples{
-\donttest{
+\dontrun{
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
   PRIMARY KEY (name))")

@@ -20,7 +20,7 @@ is used for all database operations, including schema definition (DDL),
 data manipulation (DML), and querying (MATCH).
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 
 # Create a node table

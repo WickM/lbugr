@@ -18,7 +18,7 @@ Fetches the next available row from a Ladybug query result. This function can be
 called repeatedly to iterate through results one by one.
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")

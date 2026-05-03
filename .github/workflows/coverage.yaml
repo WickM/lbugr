@@ -35,8 +35,7 @@ jobs:
       # Install the required Python package for lbugr
       - name: Install Python dependencies
         run: |
-          # Install ladybug via reticulate as recommended by the package
-          Rscript -e 'reticulate::py_install("ladybug", pip = TRUE)'
+          pip install ladybug
         shell: bash
 
       # This step installs system libs for igraph/tidygraph and other dependencies

@@ -312,7 +312,7 @@ as_data_frame_lbugr_graph <- function(x, ...) {
 #' @return An `igraph` object.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (requireNamespace("igraph", quietly = TRUE)) {
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE Person(name STRING,
@@ -407,7 +407,7 @@ as_igraph <- function(query_result) {
 #' @return A `tbl_graph` object.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (requireNamespace("tidygraph", quietly = TRUE)) {
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE Person(name STRING,

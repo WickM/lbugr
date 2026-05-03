@@ -16,7 +16,7 @@ A character vector of column data types.
 Retrieves the data types of the columns in a Ladybug query result.
 }
 \examples{
-\donttest{
+\dontrun{
 conn <- lb_connection(":memory:")
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")

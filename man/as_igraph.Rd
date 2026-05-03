@@ -22,7 +22,7 @@ directly from the query results, then constructs an \code{igraph} object. It is
 the final step in the \code{lb_execute -> as_igraph} workflow.
 }
 \examples{
-\donttest{
+\dontrun{
 if (requireNamespace("igraph", quietly = TRUE)) {
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING,

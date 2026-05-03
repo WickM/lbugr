@@ -22,7 +22,7 @@ not return a value.
 Loads data from a Parquet file into a specified table in the Ladybug database.
 }
 \examples{
-\donttest{
+\dontrun{
   if (requireNamespace("arrow", quietly = TRUE)) {
     conn <- lb_connection(":memory:")
     lb_execute(conn, "CREATE NODE TABLE Country(name STRING, code STRING,

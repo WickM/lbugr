@@ -43,7 +43,7 @@ query_result_to_df <- function(py_result) {
 #' @return A Python object representing the connection to the Ladybug database.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Create an in-memory database and connection
 #' conn <- lb_connection(":memory:")
 #'
@@ -94,7 +94,7 @@ lb_connection <- function(path) {
 #' @return A Python object representing the query result.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #'
 #' # Create a node table
@@ -130,7 +130,7 @@ lb_execute <- function(conn, query) {
 #' @method as.data.frame ladybug.query_result.QueryResult
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -157,7 +157,7 @@ as.data.frame.ladybug.query_result.QueryResult <- function(x, ...) {
 #' @method as_tibble ladybug.query_result.QueryResult
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if (requireNamespace("tibble", quietly = TRUE)) {
 #'   conn <- lb_connection(":memory:")
 #'   lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
@@ -189,7 +189,7 @@ as_tibble.ladybug.query_result.QueryResult <- function(x, ...) {
 #' @return A list where each element is a list representing a row of results.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -224,7 +224,7 @@ lb_get_all <- function(result) {
 #' @importFrom utils head
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -261,7 +261,7 @@ lb_get_n <- function(result, n) {
 #' available.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -307,7 +307,7 @@ lb_get_next <- function(result) {
 #' @return A character vector of column data types.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -331,7 +331,7 @@ lb_get_column_data_types <- function(result) {
 #' @return A character vector of column names.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")
@@ -355,7 +355,7 @@ lb_get_column_names <- function(result) {
 #' @return A named list where names are column names and values are data types.
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' conn <- lb_connection(":memory:")
 #' lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 #' PRIMARY KEY (name))")

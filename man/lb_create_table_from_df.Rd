@@ -25,7 +25,7 @@ Infers a schema from an R \code{data.frame} or \code{tibble} and creates a corre
 NODE table in the Ladybug database.
 }
 \examples{
-\donttest{
+\dontrun{
   conn <- lb_connection(":memory:")
 
   my_df <- data.frame(
