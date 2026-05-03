@@ -32,6 +32,10 @@ jobs:
         with:
           python-version: '3.14'
 
+      - name: Set RETICULATE_PYTHON
+        run: echo "RETICULATE_PYTHON=${{ steps.setup-python.outputs.python-path }}" >> $GITHUB_ENV
+        shell: bash
+
       # Install the required Python package for lbugr
       - name: Install Python dependencies
         run: |
