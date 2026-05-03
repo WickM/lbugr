@@ -85,15 +85,15 @@
 <h2 id="package-specification">Package Specification<a class="anchor" aria-label="anchor" href="#package-specification"></a></h2>
 <div class="section level3">
 <h3 id="package-name-and-metadata">Package Name and Metadata<a class="anchor" aria-label="anchor" href="#package-name-and-metadata"></a></h3>
-<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr class="header"><th>Field</th>
+<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr><th>Field</th>
 <th>Value</th>
-</tr></thead><tbody><tr class="odd"><td>Package Name</td>
+</tr></thead><tbody><tr><td>Package Name</td>
 <td>lbugr</td>
-</tr><tr class="even"><td>Title</td>
+</tr><tr><td>Title</td>
 <td>Interface to Ladybug Graph Database</td>
-</tr><tr class="odd"><td>Description</td>
+</tr><tr><td>Description</td>
 <td>Provides high-performance R interface to the Ladybug graph database using reticulate</td>
-</tr><tr class="even"><td>License</td>
+</tr><tr><td>License</td>
 <td>MIT</td>
 </tr></tbody></table></div>
 <div class="section level3">
@@ -185,46 +185,46 @@
 <div class="section level3">
 <h3 id="api-naming-convention">API Naming Convention<a class="anchor" aria-label="anchor" href="#api-naming-convention"></a></h3>
 <p>The functions in lbugr follow the prefix <code>lb_</code> (Ladybug) to clearly indicate they interact with the Ladybug database:</p>
-<table class="table"><colgroup><col width="34%"><col width="38%"><col width="27%"></colgroup><thead><tr class="header"><th>kuzuR Function</th>
+<table class="table"><colgroup><col width="34%"><col width="38%"><col width="27%"></colgroup><thead><tr><th>kuzuR Function</th>
 <th>lbugr Equivalent</th>
 <th>Description</th>
-</tr></thead><tbody><tr class="odd"><td><code>kuzu_connection</code></td>
+</tr></thead><tbody><tr><td><code>kuzu_connection</code></td>
 <td><code>lb_connection</code></td>
 <td>Create database connection</td>
-</tr><tr class="even"><td><code>kuzu_execute</code></td>
+</tr><tr><td><code>kuzu_execute</code></td>
 <td><code>lb_execute</code></td>
 <td>Execute query</td>
-</tr><tr class="odd"><td><code>kuzu_copy_from_df</code></td>
+</tr><tr><td><code>kuzu_copy_from_df</code></td>
 <td><code>lb_copy_from_df</code></td>
 <td>Copy data from data frame</td>
-</tr><tr class="even"><td><code>kuzu_create_table_from_df</code></td>
+</tr><tr><td><code>kuzu_create_table_from_df</code></td>
 <td><code>lb_create_table_from_df</code></td>
 <td>Create table from data frame</td>
-</tr><tr class="odd"><td><code>kuzu_get_column_names</code></td>
+</tr><tr><td><code>kuzu_get_column_names</code></td>
 <td><code>lb_get_column_names</code></td>
 <td>Get column names</td>
-</tr><tr class="even"><td><code>kuzu_get_column_data_types</code></td>
+</tr><tr><td><code>kuzu_get_column_data_types</code></td>
 <td><code>lb_get_column_data_types</code></td>
 <td>Get column data types</td>
-</tr><tr class="odd"><td><code>kuzu_get_schema</code></td>
+</tr><tr><td><code>kuzu_get_schema</code></td>
 <td><code>lb_get_schema</code></td>
 <td>Get query schema</td>
-</tr><tr class="even"><td><code>kuzu_get_n</code></td>
+</tr><tr><td><code>kuzu_get_n</code></td>
 <td><code>lb_get_n</code></td>
 <td>Get row count</td>
-</tr><tr class="odd"><td><code>kuzu_get_next</code></td>
+</tr><tr><td><code>kuzu_get_next</code></td>
 <td><code>lb_get_next</code></td>
 <td>Get next result</td>
-</tr><tr class="even"><td><code>kuzu_get_all</code></td>
+</tr><tr><td><code>kuzu_get_all</code></td>
 <td><code>lb_get_all</code></td>
 <td>Get all results</td>
-</tr><tr class="odd"><td><code>as_igraph</code></td>
+</tr><tr><td><code>as_igraph</code></td>
 <td><code>as_igraph</code></td>
 <td>Convert to igraph</td>
-</tr><tr class="even"><td><code>as_tidygraph</code></td>
+</tr><tr><td><code>as_tidygraph</code></td>
 <td><code>as_tidygraph</code></td>
 <td>Convert to tidygraph</td>
-</tr><tr class="odd"><td><code>check_kuzu_installation</code></td>
+</tr><tr><td><code>check_kuzu_installation</code></td>
 <td><code>check_ladybug_installation</code></td>
 <td>Verify installation</td>
 </tr></tbody></table></div>

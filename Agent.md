@@ -47,12 +47,12 @@ graph TB
 
 ### Package Name and Metadata
 
-| Field        | Value                                                                                |
-|--------------|--------------------------------------------------------------------------------------|
-| Package Name | lbugr                                                                                |
-| Title        | Interface to Ladybug Graph Database                                                  |
-| Description  | Provides high-performance R interface to the Ladybug graph database using reticulate |
-| License      | MIT                                                                                  |
+| Field | Value |
+|----|----|
+| Package Name | lbugr |
+| Title | Interface to Ladybug Graph Database |
+| Description | Provides high-performance R interface to the Ladybug graph database using reticulate |
+| License | MIT |
 
 ### Dependencies
 
@@ -119,21 +119,21 @@ graph TB
 The functions in lbugr follow the prefix `lb_` (Ladybug) to clearly
 indicate they interact with the Ladybug database:
 
-| kuzuR Function               | lbugr Equivalent             | Description                  |
-|------------------------------|------------------------------|------------------------------|
-| `kuzu_connection`            | `lb_connection`              | Create database connection   |
-| `kuzu_execute`               | `lb_execute`                 | Execute query                |
-| `kuzu_copy_from_df`          | `lb_copy_from_df`            | Copy data from data frame    |
-| `kuzu_create_table_from_df`  | `lb_create_table_from_df`    | Create table from data frame |
-| `kuzu_get_column_names`      | `lb_get_column_names`        | Get column names             |
-| `kuzu_get_column_data_types` | `lb_get_column_data_types`   | Get column data types        |
-| `kuzu_get_schema`            | `lb_get_schema`              | Get query schema             |
-| `kuzu_get_n`                 | `lb_get_n`                   | Get row count                |
-| `kuzu_get_next`              | `lb_get_next`                | Get next result              |
-| `kuzu_get_all`               | `lb_get_all`                 | Get all results              |
-| `as_igraph`                  | `as_igraph`                  | Convert to igraph            |
-| `as_tidygraph`               | `as_tidygraph`               | Convert to tidygraph         |
-| `check_kuzu_installation`    | `check_ladybug_installation` | Verify installation          |
+| kuzuR Function | lbugr Equivalent | Description |
+|----|----|----|
+| `kuzu_connection` | `lb_connection` | Create database connection |
+| `kuzu_execute` | `lb_execute` | Execute query |
+| `kuzu_copy_from_df` | `lb_copy_from_df` | Copy data from data frame |
+| `kuzu_create_table_from_df` | `lb_create_table_from_df` | Create table from data frame |
+| `kuzu_get_column_names` | `lb_get_column_names` | Get column names |
+| `kuzu_get_column_data_types` | `lb_get_column_data_types` | Get column data types |
+| `kuzu_get_schema` | `lb_get_schema` | Get query schema |
+| `kuzu_get_n` | `lb_get_n` | Get row count |
+| `kuzu_get_next` | `lb_get_next` | Get next result |
+| `kuzu_get_all` | `lb_get_all` | Get all results |
+| `as_igraph` | `as_igraph` | Convert to igraph |
+| `as_tidygraph` | `as_tidygraph` | Convert to tidygraph |
+| `check_kuzu_installation` | `check_ladybug_installation` | Verify installation |
 
 ### Installation Requirements
 
@@ -142,6 +142,7 @@ indicate they interact with the Ladybug database:
 2.  Install Python dependencies:
 
     ``` r
+
     library(lbugr)
     reticulate::py_install("ladybug", pip = TRUE)
     ```
@@ -149,6 +150,7 @@ indicate they interact with the Ladybug database:
 3.  Verify installation:
 
     ``` r
+
     check_ladybug_installation()
     ```
 
@@ -173,6 +175,7 @@ indicate they interact with the Ladybug database:
 ### Common Development Commands
 
 ``` r
+
 # Load package for development (without installing)
 devtools::load_all()
 
@@ -220,6 +223,7 @@ Key differences between kuzuR and lbugr:
 **kuzuR code:**
 
 ``` r
+
 library(kuzuR)
 con <- kuzu_connection(db_path)
 kuzu_execute(con, "MATCH (n) RETURN n")
@@ -229,6 +233,7 @@ kuzu_copy_from_df(con, df, "NodeTable")
 **lbugr code:**
 
 ``` r
+
 library(lbugr)
 con <- lb_connection(db_path)
 lb_execute(con, "MATCH (n) RETURN n")

@@ -24,11 +24,9 @@ A Python object representing the connection to the Ladybug database.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 # Create an in-memory database and connection
 conn <- lb_connection(":memory:")
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
 
 # Create or connect to an on-disk database
 temp_db_dir <- file.path(tempdir(), "ladybug_disk_example_db")
@@ -37,8 +35,6 @@ dir.create(temp_db_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Establish connection
 conn_disk <- lb_connection(db_path)
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
 
 # Ensure the database is shut down and removed on exit
 on.exit({
@@ -48,6 +44,5 @@ on.exit({
   }
   unlink(temp_db_dir, recursive = TRUE)
 })
-#> Error: object 'conn_disk' not found
-# }
+} # }
 ```

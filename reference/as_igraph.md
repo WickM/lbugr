@@ -29,7 +29,7 @@ object. It is the final step in the `lb_execute -> as_igraph` workflow.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 if (requireNamespace("igraph", quietly = TRUE)) {
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING,
@@ -49,7 +49,5 @@ if (requireNamespace("igraph", quietly = TRUE)) {
   print(g)
   rm(conn, res, g)
 }
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
-# }
+} # }
 ```

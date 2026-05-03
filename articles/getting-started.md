@@ -13,6 +13,7 @@ First, ensure you have the `lbugr` package installed. You will also need
 `reticulate` to manage the Python environment.
 
 ``` r
+
 # Install lbugr from GitHub
 remotes::install_github("your-github-repo/lbugr")
 
@@ -29,6 +30,7 @@ The first step is to create a connection to a Ladybug database. You can
 create an in-memory database or connect to a database on disk.
 
 ``` r
+
 library(lbugr)
 
 # Create an in-memory database connection
@@ -41,6 +43,7 @@ Next, define your graph schema using Cypher queries. Let’s create a
 simple schema with `Person` nodes and `Knows` relationships.
 
 ``` r
+
 lb_execute(con, paste("CREATE NODE TABLE Person(name STRING, age INT64,",
                         "PRIMARY KEY (name))"))
 lb_execute(con, "CREATE REL TABLE Knows(FROM Person TO Person, since INT64)")
@@ -52,6 +55,7 @@ You can load data from R data frames directly into your Ladybug
 database.
 
 ``` r
+
 # Create a data frame of persons
 persons_df <- data.frame(
   name = c("Alice", "Bob", "Carol"),
@@ -76,6 +80,7 @@ Finally, you can query your graph using Cypher and retrieve the results
 as an R data frame.
 
 ``` r
+
 # Execute a query
 result <- lb_execute(con, paste("MATCH (a:Person)-[k:Knows]->(b:Person)",
                                   "RETURN a.name, b.name, k.since"))

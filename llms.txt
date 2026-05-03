@@ -28,12 +28,14 @@ R-native graph objects like `igraph` and `tidygraph`.
 You can install the stable version from CRAN:
 
 ``` r
+
 install.packages("lbugr")
 ```
 
 Or install the development version from GitHub:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("WickM/lbugr")
 ```
@@ -44,6 +46,7 @@ After installing `lbugr`, you must install the required Python packages.
 You can do this from your R console using `reticulate`:
 
 ``` r
+
 library(lbugr)
 reticulate::py_install("ladybug", pip = TRUE)
 ```
@@ -57,6 +60,7 @@ reticulate::py_install("ladybug", pip = TRUE)
 You can check that all dependencies are correctly installed by running:
 
 ``` r
+
 check_ladybug_installation()
 #> The 'ladybug' Python package is installed and available.
 ```
@@ -67,6 +71,7 @@ Here is a complete example demonstrating how to create a database,
 define a schema, load data, and run queries.
 
 ``` r
+
 library(lbugr)
 library(igraph)
 library(tidygraph)

@@ -25,10 +25,7 @@ dependencies and printing messages.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 check_ladybug_installation()
-#> Error: The 'ladybug' Python package is not installed.
-#> To install it, please run the following command in your R console:
-#> reticulate::py_install('ladybug', pip = TRUE)
-# }
+} # }
 ```

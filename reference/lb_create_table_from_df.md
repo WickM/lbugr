@@ -36,10 +36,8 @@ not return a value.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
   conn <- lb_connection(":memory:")
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
 
   my_df <- data.frame(
     name = c("Alice", "Bob"),
@@ -50,15 +48,11 @@ not return a value.
   )
 
   lb_create_table_from_df(conn, my_df, "Person", primary_key = "name")
-#> Error: object 'conn' not found
 
   # Now you can load data into the created table
   lb_copy_from_df(conn, my_df, "Person")
-#> Error: object 'conn' not found
 
   result <- lb_execute(conn, "MATCH (p:Person) RETURN *")
-#> Error: object 'conn' not found
   print(as.data.frame(result))
-#> Error: object 'result' not found
-# }
+} # }
 ```

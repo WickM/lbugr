@@ -41,13 +41,10 @@ return a value.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
   conn <- lb_connection(":memory:")
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
   lb_execute(conn, "CREATE NODE TABLE City(name STRING, population INT64,
   PRIMARY KEY (name))")
-#> Error: object 'conn' not found
 
   # Create a temporary CSV file
   csv_file <- tempfile(fileext = ".csv")
@@ -57,15 +54,12 @@ return a value.
 
   # Load data from CSV
   lb_copy_from_csv(conn, csv_file, "City")
-#> Error: object 'conn' not found
 
   # Verify the data
   result <- lb_execute(conn, "MATCH (c:City) RETURN c.name, c.population")
-#> Error: object 'conn' not found
   print(as.data.frame(result))
-#> Error: object 'result' not found
 
   # Clean up the temporary file
   unlink(csv_file)
-# }
+} # }
 ```

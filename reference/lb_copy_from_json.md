@@ -37,13 +37,10 @@ return a value.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
   conn <- lb_connection(":memory:")
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
   lb_execute(conn, "CREATE NODE TABLE Product(id INT64, name STRING,
   PRIMARY KEY (id))")
-#> Error: object 'conn' not found
 
   # Create a temporary JSON file
   json_file <- tempfile(fileext = ".json")
@@ -52,17 +49,12 @@ return a value.
 
   # Load data from JSON
   lb_copy_from_json(conn, json_file, "Product")
-#> Warning: Could not install or load JSON extension. Please check your internet connection and Ladybug setup.
-#> Warning: restarting interrupted promise evaluation
-#> Error: object 'conn' not found
 
   # Verify the data
   result <- lb_execute(conn, "MATCH (p:Product) RETURN p.id, p.name")
-#> Error: object 'conn' not found
   print(as.data.frame(result))
-#> Error: object 'result' not found
 
   # Clean up the temporary file
   unlink(json_file)
-# }
+} # }
 ```

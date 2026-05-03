@@ -27,7 +27,7 @@ A `tibble` containing the query results.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 if (requireNamespace("tibble", quietly = TRUE)) {
   conn <- lb_connection(":memory:")
   lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
@@ -39,7 +39,5 @@ if (requireNamespace("tibble", quietly = TRUE)) {
   tbl <- tibble::as_tibble(result)
   print(tbl)
 }
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
-# }
+} # }
 ```

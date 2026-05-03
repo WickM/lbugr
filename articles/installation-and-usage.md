@@ -11,6 +11,7 @@ database. You can create an in-memory database or specify a path to a
 database file on disk.
 
 ``` r
+
 library(lbugr)
 con <- lb_connection(":memory:")
 ```
@@ -23,18 +24,18 @@ need to map your R data types to the corresponding Ladybug
 
 ### Ladybug to R Data Type Mapping
 
-| **Ladybug `LogicalTypeID`** | **R Type Equivalent** | **Description**                                                 |
-|-----------------------------|-----------------------|-----------------------------------------------------------------|
-| `BOOL`                      | `logical`             | `TRUE`/`FALSE` values                                           |
-| `INT64`                     | `integer`             | 64-bit signed integer                                           |
-| `DOUBLE`                    | `numeric`             | Double-precision floating-point number                          |
-| `STRING`                    | `character`           | UTF-8 encoded string                                            |
-| `TIMESTAMP`                 | `POSIXct`             | Date and time with timezone, stored as microseconds since epoch |
-| `DATE`                      | `Date`                | Date (year, month, day)                                         |
-| `INTERVAL`                  | `difftime`            | Time interval (e.g., “1 year 2 months 3 days”)                  |
-| `UUID`                      | `character`           | Universally Unique Identifier, stored as a string               |
-| `LIST`                      | `list`                | Ordered collection of values of the same type                   |
-| `MAP`                       | `list` (named list)   | Unordered collection of key-value pairs                         |
+| **Ladybug `LogicalTypeID`** | **R Type Equivalent** | **Description** |
+|----|----|----|
+| `BOOL` | `logical` | `TRUE`/`FALSE` values |
+| `INT64` | `integer` | 64-bit signed integer |
+| `DOUBLE` | `numeric` | Double-precision floating-point number |
+| `STRING` | `character` | UTF-8 encoded string |
+| `TIMESTAMP` | `POSIXct` | Date and time with timezone, stored as microseconds since epoch |
+| `DATE` | `Date` | Date (year, month, day) |
+| `INTERVAL` | `difftime` | Time interval (e.g., “1 year 2 months 3 days”) |
+| `UUID` | `character` | Universally Unique Identifier, stored as a string |
+| `LIST` | `list` | Ordered collection of values of the same type |
+| `MAP` | `list` (named list) | Unordered collection of key-value pairs |
 
 ### Creating a Complex Schema
 
@@ -43,6 +44,7 @@ You can define a schema with node and relationship tables using
 Here’s an example of a more complex schema:
 
 ``` r
+
 # Create a node table for users with various data types
 lb_execute(con, paste("CREATE NODE TABLE User(userID UUID, name STRING,",
                         "age INT64, is_active BOOL, created_at TIMESTAMP,",
@@ -68,6 +70,7 @@ Use
 to load data from an R `data.frame`.
 
 ``` r
+
 library(jsonlite)
 # Create data frames for nodes and relationships
 users <- data.frame(
@@ -107,6 +110,7 @@ to load data from a CSV file. For this to work, the file should be in
 the current working directory.
 
 ``` r
+
 # Create a CSV file in the project's root directory
 csv_filename <- "products.csv"
 write.csv(data.frame(productID = c(103, 104), name = c("Keyboard", "Monitor")),
@@ -126,6 +130,7 @@ You can execute Cypher queries using
 and convert the results into various R formats.
 
 ``` r
+
 # Execute a query to get users and their purchases
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 ```
@@ -144,6 +149,7 @@ and the graph conversion functions will exhaust this iterator.
 ### Convert to Data Frame or Tibble
 
 ``` r
+
 # Convert to a data frame
 df_result <- as.data.frame(query_result)
 print(df_result)
@@ -158,6 +164,7 @@ print(tibble_result)
 ### Use Query Results returned as list
 
 ``` r
+
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 
 result <- lb_get_all(query_result)
@@ -182,6 +189,7 @@ this, the query must return the node and relationship variables
 themselves, not just their properties.
 
 ``` r
+
 # Execute a query that returns a graph structure 
 graph_query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u, p, b")
 igraph_obj <- as_igraph(graph_query_result)

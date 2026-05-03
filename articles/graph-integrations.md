@@ -19,6 +19,7 @@ transform Ladybug query results into `igraph` objects.
 First, let’s set up a Ladybug database and load some sample graph data.
 
 ``` r
+
 library(lbugr)
 library(igraph)
 
@@ -52,6 +53,7 @@ Now, let’s execute a query that returns graph data and convert it to an
 `igraph` object.
 
 ``` r
+
 # Query to get all persons and their relationships
 graph_query_result <- lb_execute(con, paste("MATCH (p1:Person)-[k:Knows]->",
                                               "(p2:Person) RETURN p1, p2, k"))
@@ -90,6 +92,7 @@ Using the same Ladybug query result, we can convert it to a `tidygraph`
 object.
 
 ``` r
+
 # Convert the Ladybug result to a tidygraph object
 tidygraph_graph <- as_tidygraph(graph_query_result)
 
@@ -118,6 +121,7 @@ result into a `g6R` object. We can then customize the appearance of the
 nodes and edges for a more informative visualization.
 
 ``` r
+
 library(g6R)
 graph_query_result <- lb_execute(con, paste("MATCH (p1:Person)-[k:Knows]->",
                                               "(p2:Person) RETURN p1, p2, k"))

@@ -22,18 +22,12 @@ A named list where names are column names and values are data types.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
 conn <- lb_connection(":memory:")
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
 lb_execute(conn, "CREATE NODE TABLE User(name STRING, age INT64,
 PRIMARY KEY (name))")
-#> Error: object 'conn' not found
 lb_execute(conn, "CREATE (:User {name: 'Alice', age: 25})")
-#> Error: object 'conn' not found
 result <- lb_execute(conn, "MATCH (a:User) RETURN a.name, a.age")
-#> Error: object 'conn' not found
 lb_get_schema(result)
-#> Error: object 'result' not found
-# }
+} # }
 ```

@@ -35,7 +35,7 @@ return a value.
 ## Examples
 
 ``` r
-# \donttest{
+if (FALSE) { # \dontrun{
   if (requireNamespace("arrow", quietly = TRUE)) {
     conn <- lb_connection(":memory:")
     lb_execute(conn, "CREATE NODE TABLE Country(name STRING, code STRING,
@@ -56,7 +56,5 @@ return a value.
     # Clean up the temporary file
     unlink(parquet_file)
   }
-#> Error in py_run_string_impl(code, local, convert): AttributeError: 'NoneType' object has no attribute 'Database'
-#> Run `reticulate::py_last_error()` for details.
-# }
+} # }
 ```
