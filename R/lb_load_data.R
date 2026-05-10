@@ -334,8 +334,22 @@ lb_copy_from_json <- function(conn, file_path, table_name) {
       )
     }
   )
-  # Use the internal copy function to load data from the JSON file
-  lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
+
+  tryCatch(
+    {
+      lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
+    },
+    error = function(e) {
+      warning(
+        paste(
+          "Could not install or load JSON extension. Please check your",
+          "internet connection and Ladybug setup."
+        )
+      )
+    }
+  )
+
+  invisible(NULL)
 }
 
 #' Load Data from a Parquet File into a Ladybug Table
