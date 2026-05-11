@@ -19,7 +19,7 @@ jobs:
       NOT_CRAN: true
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -27,13 +27,13 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         id: setup-python
         with:
           python-version: '3.14'
 
-      - name: Set RETICULATE_PYTHON
-        run: echo "RETICULATE_PYTHON=${{ steps.setup-python.outputs.python-path }}" >> $GITHUB_ENV
+      - name: Create .Renviron for RETICULATE_PYTHON
+        run: echo "RETICULATE_PYTHON=${{ steps.setup-python.outputs.python-path }}" > .Renviron
         shell: bash
 
       # Install the required Python package for lbugr

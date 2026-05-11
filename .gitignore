@@ -7,3 +7,4 @@ debug_test.R
 .Rprofile
 docs/
 AGENTS.md
+.Renviron
