@@ -234,7 +234,7 @@
 <li>
 <p>Install Python dependencies:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wickm.github.io/lbugr">lbugr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wickm.github.io/lbugr/">lbugr</a></span><span class="op">)</span></span>
 <span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html" class="external-link">py_install</a></span><span class="op">(</span><span class="st">"ladybug"</span>, pip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -326,7 +326,7 @@
 <span><span class="fu">kuzu_copy_from_df</span><span class="op">(</span><span class="va">con</span>, <span class="va">df</span>, <span class="st">"NodeTable"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>lbugr code:</strong></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wickm.github.io/lbugr">lbugr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wickm.github.io/lbugr/">lbugr</a></span><span class="op">)</span></span>
 <span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lb_connection.html">lb_connection</a></span><span class="op">(</span><span class="va">db_path</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lb_execute.html">lb_execute</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"MATCH (n) RETURN n"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lb_copy_from_df.html">lb_copy_from_df</a></span><span class="op">(</span><span class="va">con</span>, <span class="va">df</span>, <span class="st">"NodeTable"</span><span class="op">)</span></span></code></pre></div>
