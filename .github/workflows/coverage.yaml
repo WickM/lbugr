@@ -36,10 +36,12 @@ jobs:
         run: echo "RETICULATE_PYTHON=${{ steps.setup-python.outputs.python-path }}" > .Renviron
         shell: bash
 
-      # Install the required Python package for lbugr
+      # The Python package name must match the R-CMD-check workflow.
+      # "ladybug" on PyPI is an old CSV package (v0.0.2); "real_ladybug"
+      # is the actual Ladybug graph-database client.
       - name: Install Python dependencies
         run: |
-          pip install ladybug
+          pip install real_ladybug
         shell: bash
 
       # This step installs system libs for igraph/tidygraph and other dependencies
@@ -72,6 +74,8 @@ jobs:
             print(search())
             print('covr available:')
             print('covr' %in% rownames(installed.packages()))
+            cat('Python packages installed:\n')
+            reticulate::py_run_string('import pkg_resources; [print(p.project_name) for p in pkg_resources.working_set]')
             ladybug_available <- reticulate::py_module_available('ladybug')
             print('ladybug available:')
             print(ladybug_available)
@@ -83,7 +87,23 @@ jobs:
 
       - name: Run coverage
         run: |
-          Rscript -e 'covr::codecov(quiet = FALSE)'
+          Rscript -e '
+            # Run tests and generate coverage report
+            cov <- covr::package_coverage()
+            # Save XML report as artifact for debugging
+            dir.create("coverage", showWarnings = FALSE)
+            covr::to_cobertura(cov, file = "coverage/coverage.xml")
+            # Upload to Codecov
+            covr::codecov(quiet = FALSE)
+          '
         shell: bash
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Save coverage report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7

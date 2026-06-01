@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-skip_vignette <- !reticulate::py_module_available("ladybug")
+skip_vignette <- !reticulate::py_module_available("ladybug") || !requireNamespace("ggraph", quietly = TRUE)
 ```
 
 This vignette provides a guide to `lbugr` and performing basic operations, including creating a database, defining a schema, loading data from various sources, and executing Cypher queries.

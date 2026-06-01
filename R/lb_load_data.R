@@ -320,34 +320,9 @@ lb_copy_from_csv <- function(
 #' }
 #' @seealso \href{https://ladybugdb.com/import/copy-from-json}{Ladybug JSON Import}, \href{https://ladybugdb.com/extensions/json}{Ladybug JSON Extension}
 lb_copy_from_json <- function(conn, file_path, table_name) {
-  # Ensure the JSON extension is installed and loaded
-  tryCatch(
-    {
-      lb_execute(conn, query = "INSTALL json;LOAD json;")
-    },
-    error = function(e) {
-      warning(
-        paste(
-          "Could not install or load JSON extension. Please check your",
-          "internet connection and Ladybug setup."
-        )
-      )
-    }
-  )
+  lb_execute(conn, query = "INSTALL json; LOAD json;")
 
-  tryCatch(
-    {
-      lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
-    },
-    error = function(e) {
-      warning(
-        paste(
-          "Could not install or load JSON extension. Please check your",
-          "internet connection and Ladybug setup."
-        )
-      )
-    }
-  )
+  lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
 
   invisible(NULL)
 }

@@ -229,6 +229,11 @@ test_that("lb_copy_from_json loads JSON data", {
   
   conn <- test_conn(environment())
   
+  tryCatch(
+    lb_execute(conn, "INSTALL json; LOAD json;"),
+    error = function(e) skip("JSON extension not available")
+  )
+  
   # Create node table
   lb_execute(conn, "CREATE NODE TABLE Product(id INT64, name STRING, PRIMARY KEY (id))")
   
@@ -239,11 +244,7 @@ test_that("lb_copy_from_json loads JSON data", {
   writeLines(json_data, json_file)
   
   # Load from JSON
-  expect_warning(
-    lb_copy_from_json(conn, json_file, "Product"),
-    "Could not install or load JSON extension",
-    fixed = TRUE
-  )
+  lb_copy_from_json(conn, json_file, "Product")
   
   # Verify data was loaded
   result <- lb_execute(conn, "MATCH (p:Product) RETURN p.id, p.name")
@@ -721,6 +722,11 @@ test_that("lb_copy_from_json handles empty JSON files", {
   skip_if_no_ladybug()
   conn <- test_conn(environment())
 
+  tryCatch(
+    lb_execute(conn, "INSTALL json; LOAD json;"),
+    error = function(e) skip("JSON extension not available")
+  )
+
   # Create an empty JSON file (empty array)
   json_content <- "[]"
   temp_json_path <- tempfile(fileext = ".json")
@@ -734,11 +740,7 @@ test_that("lb_copy_from_json handles empty JSON files", {
   )
 
   # Load data from empty JSON
-  expect_warning(
-    lb_copy_from_json(conn, temp_json_path, "EmptyJsonTable"),
-    "Could not install or load JSON extension",
-    fixed = TRUE
-  )
+  lb_copy_from_json(conn, temp_json_path, "EmptyJsonTable")
 
   # Query and verify that the table is empty
   result <- lb_execute(conn, "MATCH (e:EmptyJsonTable) RETURN count(e)")
