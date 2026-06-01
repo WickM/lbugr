@@ -380,38 +380,33 @@ lb_copy_from_parquet <- function(conn, file_path, table_name) {
 #' @export
 #' @examples
 #' \dontrun{
+#' conn <- lb_connection(":memory:")
+#'
+#' lb_execute(conn, "CREATE NODE TABLE Person(name STRING, current_city STRING,
+#' PRIMARY KEY (name))")
+#' lb_execute(conn, "CREATE NODE TABLE Item(name STRING, PRIMARY KEY (name))")
+#' lb_execute(conn, "CREATE REL TABLE PURCHASED(FROM Person TO Item)")
+#'
 #' my_data <- data.frame(
-#'    name = c("Alice", "Bob"),
-#'    item = c("Book", "Pen"),
-#'    current_city = c("New York", "London")
-#'  )
+#'   name = c("Alice", "Bob"),
+#'   item = c("Book", "Pen"),
+#'   current_city = c("New York", "London")
+#' )
 #'
-#'  merge_statement <- "MERGE (p:Person {name: df.name})
-#'  MERGE (i:Item {name: df.item})
-#'  MERGE (p)-[:PURCHASED]->(i)
-#'  ON MATCH SET p.current_city = df.current_city
-#'  ON CREATE SET p.current_city = df.current_city"
+#' merge_statement <- "
+#' MERGE (p:Person {name: df.name})
+#' MERGE (i:Item {name: df.item})
+#' MERGE (p)-[:PURCHASED]->(i)
+#' ON MATCH SET p.current_city = df.current_city
+#' ON CREATE SET p.current_city = df.current_city
+#' "
 #'
-#'  # Note: 'conn' would need to be a valid Ladybug connection object
-#'  # and the schema (Person, Item, PURCHASED tables) would need to be created
-#'  # before running this example.
-#'  # lb_merge_df(conn, my_data, merge_statement)
+#' lb_merge_df(conn, my_data, merge_statement)
 #'
-#'  # Example with a different merge query structure:
-#'  my_data_2 <- data.frame(
-#'    person_name = c("Charlie"),
-#'    purchased_item = c("Laptop"),
-#'    city = c("Paris")
-#'  )
-#' #
-#'  merge_statement_2 <- "MERGE (p:Person {name: person_name})
-#'  MERGE (i:Item {name: purchased_item})
-#'  MERGE (p)-[:PURCHASED]->(i)
-#'  ON MATCH SET p.current_city = city
-#'  ON CREATE SET p.current_city = city"
-#'
-#'  # lb_merge_df(conn, my_data_2, merge_statement_2)
-#'  }
+#' result <- lb_execute(conn, "MATCH (p:Person)-[:PURCHASED]->(i:Item)
+#' RETURN p.name, i.name, p.current_city")
+#' print(as.data.frame(result))
+#' }
 #' @seealso \href{https://ladybugdb.com/import/copy-from-dataframe}{Ladybug Copy from DataFrame}
 lb_merge_df <- function(conn, df, merge_query) {
   if (!is.character(merge_query) || length(merge_query) != 1L || !nzchar(merge_query)) {

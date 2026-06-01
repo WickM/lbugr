@@ -26,3 +26,5 @@
 ^test_output\.txt$
 ^\.agents$
 ^README\\.Rmd$
+^AGENTS\\.md$
+^docs$
