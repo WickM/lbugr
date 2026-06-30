@@ -117,7 +117,7 @@ tidygraph_graph <- as_tidygraph(graph_query_result)
 # Print the tidygraph object summary
 print(tidygraph_graph)
 ggraph::ggraph(tidygraph_graph, layout = "kk") +
-  ggraph::geom_edge_arrow(color = "#9ca3af", arrow.fill = "#9ca3af", end_cap = ggraph::arrow(angle = 30, length = grid::unit(3, "mm"))) +
+  ggraph::geom_edge_link(color = "#9ca3af", arrow = grid::arrow(angle = 30, length = grid::unit(3, "mm")), arrow.fill = "#9ca3af", end_cap = grid::arrow(angle = 30, length = grid::unit(3, "mm"))) +
   ggraph::geom_node_point(color = "#dc2626", size = 8) +
   ggraph::geom_node_text(ggplot2::aes(label = name), color = "#f3f4f6", size = 4, vjust = -1) +
   ggplot2::theme_void() +
