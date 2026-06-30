@@ -9,15 +9,9 @@
 library(testthat)
 library(lbugr)
 
-# Enforce explicit Python runtime for local/CI consistency
+# Skip tests if RETICULATE_PYTHON is not set (e.g., on CRAN)
 if (Sys.getenv("RETICULATE_PYTHON") == "") {
-  stop(
-    paste(
-      "RETICULATE_PYTHON is not set.",
-      "Set it explicitly (e.g., via project .Renviron) before running tests."
-    ),
-    call. = FALSE
-  )
+  skip("RETICULATE_PYTHON is not set. Skipping tests.")
 }
 
 test_check("lbugr")

@@ -3,7 +3,7 @@
 ^Meta/
 ^\.github$
 ^codecov\.yml$
-^Agent\.md$
+^AGENTS\.md$
 ^TESTING\.md$
 ^cran-comments\.md$
 ^\.lintr$
