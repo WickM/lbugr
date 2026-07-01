@@ -25,7 +25,7 @@
 ^pkgdown$
 ^test_output\.txt$
 ^\.agents$
-^README\\.Rmd$
-^AGENTS\\.md$
-^Agent\\.md$
+^README\.Rmd$
+^AGENTS\.md$
+^Agent\.md$
 ^docs$

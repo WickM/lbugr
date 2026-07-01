@@ -75,7 +75,7 @@ jobs:
             print('covr available:')
             print('covr' %in% rownames(installed.packages()))
             cat('Python packages installed:\n')
-            reticulate::py_run_string('import pkg_resources; [print(p.project_name) for p in pkg_resources.working_set]')
+            reticulate::py_run_string('from importlib.metadata import distributions; [print(d.metadata["Name"]) for d in distributions()]')
             ladybug_available <- reticulate::py_module_available('ladybug')
             print('ladybug available:')
             print(ladybug_available)
