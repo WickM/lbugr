@@ -10,8 +10,10 @@ library(testthat)
 library(lbugr)
 
 # Skip tests if RETICULATE_PYTHON is not set (e.g., on CRAN)
+# Use quit() instead of skip() to avoid ERROR status on CRAN
 if (Sys.getenv("RETICULATE_PYTHON") == "") {
-  skip("RETICULATE_PYTHON is not set. Skipping tests.")
+  message("RETICULATE_PYTHON is not set. Skipping tests.")
+  quit(save = "no", status = 0, runLast = FALSE)
 }
 
 test_check("lbugr")

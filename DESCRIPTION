@@ -3,7 +3,6 @@ Title: Interface to 'ladybug' Graph Database
 Version: 0.1.0
 Authors@R: 
     person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre", "cph"))
-Author: Manuel Wick-Eckl
 Maintainer: Manuel Wick-Eckl <manuel.wick@gmail.com>
 Description: Provides a high-performance 'R' interface to the 'ladybug' graph database.
     Uses the 'reticulate' package to wrap the official Python 'ladybug' client.
