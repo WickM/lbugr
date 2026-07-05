@@ -72,6 +72,17 @@ lb_connection <- function(path) {
   # Use the globally initialized lbugr object (from zzz.R)
   lb <- lbugr
 
+  # Validate ladybug module on first use (delayed from .onLoad)
+  # This check forces Python initialization, so we do it here, not at package load
+  if (!"Database" %in% names(lb)) {
+    stop(
+      "The installed 'ladybug' Python package is outdated.\n",
+      "You have the old CSV handling package (v0.0.2), not the LadybugDB graph database.\n",
+      "\nPlease upgrade with: reticulate::py_install('ladybug', pip = TRUE)",
+      call. = FALSE
+    )
+  }
+
   main <- reticulate::import_main(convert = FALSE)
   main$lb <- lb
   main$lbugr_path <- path

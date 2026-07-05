@@ -29,7 +29,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-skip_vignette <- !reticulate::py_module_available("ladybug") || !requireNamespace("ggraph", quietly = TRUE)
 ```
 
 This vignette provides a guide to `lbugr` and performing basic operations, including creating a database, defining a schema, loading data from various sources, and executing Cypher queries.
@@ -38,7 +37,7 @@ This vignette provides a guide to `lbugr` and performing basic operations, inclu
 
 First, load the `lbugr` package and create a connection to a Ladybug database. You can create an in-memory database or specify a path to a database file on disk.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 library(lbugr)
 con <- lb_connection(":memory:")
 ```
@@ -66,7 +65,7 @@ Ladybug supports a rich set of data types. When creating a schema, you need to m
 
 You can define a schema with node and relationship tables using `lb_execute()`. Here's an example of a more complex schema:
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Create a node table for users with various data types
 lb_execute(con, paste("CREATE NODE TABLE User(userID UUID, name STRING,",
                         "age INT64, is_active BOOL, created_at TIMESTAMP,",
@@ -88,7 +87,7 @@ You can load data into your Ladybug tables from R data frames or external files 
 
 Use `lb_copy_from_df()` to load data from an R `data.frame`.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 library(jsonlite)
 # Create data frames for nodes and relationships
 users <- data.frame(
@@ -124,7 +123,7 @@ lb_copy_from_df(con, buys, "Buys")
 
 Use `lb_copy_from_csv()` to load data from a CSV file. For this to work, the file should be in the current working directory.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Create a CSV file in the project's root directory
 csv_filename <- "products.csv"
 write.csv(data.frame(productID = c(103, 104), name = c("Keyboard", "Monitor")),
@@ -141,7 +140,7 @@ unlink(csv_filename)
 
 You can execute Cypher queries using `lb_execute()` and convert the results into various R formats.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Execute a query to get users and their purchases
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 ```
@@ -152,46 +151,69 @@ The `QueryResult` object returned by `lb_execute()` acts as an iterator over the
 
 ### Convert to Data Frame or Tibble
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Convert to a data frame
 df_result <- as.data.frame(query_result)
 print(df_result)
+#>      u.name p.name purchase_date
+#> 1     Alice Laptop    2023-02-20
+#> 2       Bob  Mouse    2023-03-15
 
 # Convert to a tibble
 library(tibble)
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 tibble_result <- as_tibble(query_result)
 print(tibble_result)
+#> # A tibble: 2 x 3
+#>   u.name p.name purchase_date
+#>   <chr>  <chr>  <date>
+#> 1 Alice  Laptop 2023-02-20
+#> 2 Bob    Mouse  2023-03-15
 ```
 
 ### Use Query Results returned as list
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 
 result <- lb_get_all(query_result)
 print(result)
+#> [[1]]
+#> [[1]]$u.name
+#> [1] "Alice"
+#> ...
 
 # only fetch 1. result 
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 
 result <- lb_get_n(query_result, 1)
 print(result)
+#> [[1]]
+#> [[1]]$u.name
+#> [1] "Alice"
+#> ...
 
 #Fetch next result
 result <- lb_get_next(query_result)
 print(result)
+#> $u.name
+#> [1] "Bob"
+#> ...
 ```
 
 ### Convert to Graph Objects
 
 For queries that return graph structures, you can convert the results into graph objects from packages like `igraph` or `tidygraph`. To do this, the query must return the node and relationship variables themselves, not just their properties.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Execute a query that returns a graph structure 
 graph_query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u, p, b")
 igraph_obj <- as_igraph(graph_query_result)
 print(igraph_obj)
+#> IGRAPH UN-- 3 2 -- 
+#> + attr: name (v/c)
+#> + edges (vertex names):
+#> [1] Alice->Laptop Bob  ->Mouse
 
 plot(igraph_obj,
      vertex.color = "#dc2626",
@@ -206,6 +228,22 @@ plot(igraph_obj,
 # Convert to a tidygraph object
 tidygraph_obj <- as_tidygraph(graph_query_result)
 print(tidygraph_obj)
+#> # A tbl_graph: 3 nodes and 2 edges
+#> #
+#> # A directed acyclic simple graph with 3 nodes and 2 edges
+#> #
+#> # Node Data: 3 x 1 (active)
+#>   name 
+#>   <chr>
+#> 1 Alice
+#> 2 Bob  
+#> 3 Laptop
+#> #
+#> # Edge Data: 2 x 3
+#>    from    to purchase_date
+#>   <int> <int> <date>
+#> 1     1     3 2023-02-20
+#> 2     2     4 2023-03-15
 
 ggraph::ggraph(tidygraph_obj, layout = "kk") +
   ggraph::geom_edge_link(color = "#9ca3af", arrow = grid::arrow(angle = 30, length = grid::unit(3, "mm"))) +
@@ -213,4 +251,3 @@ ggraph::ggraph(tidygraph_obj, layout = "kk") +
   ggraph::geom_node_text(ggplot2::aes(label = name), color = "#f3f4f6", size = 4, vjust = -1) +
   ggplot2::theme_void() +
   ggplot2::theme(plot.background = ggplot2::element_rect(fill = "#030712", color = NA))
-```

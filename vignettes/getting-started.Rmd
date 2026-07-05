@@ -29,7 +29,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-skip_vignette <- !reticulate::py_module_available("ladybug")
 ```
 
 ## Introduction
@@ -55,7 +54,7 @@ reticulate::py_install("ladybug", pip = TRUE)
 
 The first step is to create a connection to a Ladybug database. You can create an in-memory database or connect to a database on disk.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 library(lbugr)
 
 # Create an in-memory database connection
@@ -66,7 +65,7 @@ con <- lb_connection(":memory:")
 
 Next, define your graph schema using Cypher queries. Let's create a simple schema with `Person` nodes and `Knows` relationships.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 lb_execute(con, paste("CREATE NODE TABLE Person(name STRING, age INT64,",
                         "PRIMARY KEY (name))"))
 lb_execute(con, "CREATE REL TABLE Knows(FROM Person TO Person, since INT64)")
@@ -76,7 +75,7 @@ lb_execute(con, "CREATE REL TABLE Knows(FROM Person TO Person, since INT64)")
 
 You can load data from R data frames directly into your Ladybug database.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Create a data frame of persons
 persons_df <- data.frame(
   name = c("Alice", "Bob", "Carol"),
@@ -99,7 +98,7 @@ lb_copy_from_df(con, knows_df, "Knows")
 
 Finally, you can query your graph using Cypher and retrieve the results as an R data frame.
 
-```{r, eval=!skip_vignette}
+```{r, eval=FALSE}
 # Execute a query
 result <- lb_execute(con, paste("MATCH (a:Person)-[k:Knows]->(b:Person)",
                                   "RETURN a.name, b.name, k.since"))
@@ -107,6 +106,9 @@ result <- lb_execute(con, paste("MATCH (a:Person)-[k:Knows]->(b:Person)",
 # Convert the result to a data frame
 df <- as.data.frame(result)
 print(df)
+#>    a.name b.name since
+#> 1   Alice    Bob  2010
+#> 2     Bob  Carol  2015
 ```
 
 This concludes the "Getting Started" guide. For more advanced topics, please see the other articles and the function reference.

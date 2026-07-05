@@ -1,6 +1,6 @@
 Package: lbugr
 Title: Interface to 'ladybug' Graph Database
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre", "cph"))
 Maintainer: Manuel Wick-Eckl <manuel.wick@gmail.com>

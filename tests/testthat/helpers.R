@@ -80,21 +80,20 @@ create_test_db_path <- function() {
 
 #' Create a temporary test database connection
 #'
-#' This fixture creates an on-disk Ladybug connection in a unique temp
-#' directory for each test, and automatically cleans up on exit.
+#' This fixture creates an in-memory Ladybug connection for each test.
+#' In-memory databases are faster than on-disk databases and don't require
+#' file system cleanup.
 #'
 #' @param test Test environment passed by testthat (optional)
 #' @return A Ladybug connection object
 test_conn <- function(test = NULL) {
-  db <- create_test_db_path()
-  conn <- lb_connection(db$db_path)
-  attr(conn, "lbugr_test_db_dir") <- db$db_dir
+  # Use in-memory database for faster test execution
+  conn <- lb_connection(":memory:")
 
   # Register cleanup only when a test env is provided
   if (!is.null(test)) {
     test$old_conn <- conn
-    test$old_db_dir <- db$db_dir
-    withr::defer(cleanup_db(conn = conn, db_dir = db$db_dir), envir = test)
+    withr::defer(cleanup_db(conn = conn), envir = test)
   }
 
   conn
