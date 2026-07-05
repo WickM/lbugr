@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/WickM/lbugr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/WickM/lbugr/blob/v0.1.0/DESCRIPTION)
 
 Wick-Eckl M (2026). *lbugr: Interface to 'ladybug' Graph Database*. R
 package version 0.1.0, <https://wickm.github.io/lbugr/>.
