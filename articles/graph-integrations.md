@@ -63,6 +63,10 @@ igraph_graph <- as_igraph(graph_query_result)
 
 # Print the igraph object summary
 print(igraph_graph)
+#> IGRAPH UN-- 3 2 -- 
+#> + attr: name (v/c), label (v/c), since (e/n)
+#> + edges (vertex names):
+#> [1] Alice->Bob  Bob  ->Carol
 
 V(igraph_graph)$label <- igraph::V(igraph_graph)$name
 E(igraph_graph)$label <- "knows"
@@ -98,6 +102,23 @@ tidygraph_graph <- as_tidygraph(graph_query_result)
 
 # Print the tidygraph object summary
 print(tidygraph_graph)
+#> # A tbl_graph: 3 nodes and 2 edges
+#> #
+#> # A directed acyclic simple graph with 3 nodes and 2 edges
+#> #
+#> # Node Data: 3 x 2 (active)
+#>   name    age
+#>   <chr> <dbl>
+#> 1 Alice    35
+#> 2 Bob      45
+#> 3 Carol    25
+#> #
+#> # Edge Data: 2 x 3
+#>    from    to since
+#>   <int> <int> <dbl>
+#> 1     1     2  2010
+#> 2     2     3  2015
+
 ggraph::ggraph(tidygraph_graph, layout = "kk") +
   ggraph::geom_edge_link(color = "#9ca3af", arrow = grid::arrow(angle = 30, length = grid::unit(3, "mm")), arrow.fill = "#9ca3af") +
   ggraph::geom_node_point(color = "#dc2626", size = 8) +

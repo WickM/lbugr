@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">lbugr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Graph Library Integrations</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/WickM/lbugr/blob/v0.1.0/vignettes/graph-integrations.Rmd" class="external-link"><code>vignettes/graph-integrations.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/WickM/lbugr/blob/main/vignettes/graph-integrations.Rmd" class="external-link"><code>vignettes/graph-integrations.Rmd</code></a></small>
       <div class="d-none name"><code>graph-integrations.Rmd</code></div>
     </div>
 
@@ -133,6 +133,10 @@ an <code>igraph</code> object.</p>
 <span></span>
 <span><span class="co"># Print the igraph object summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span></span>
+<span><span class="co">#&gt; IGRAPH UN-- 3 2 -- </span></span>
+<span><span class="co">#&gt; + attr: name (v/c), label (v/c), since (e/n)</span></span>
+<span><span class="co">#&gt; + edges (vertex names):</span></span>
+<span><span class="co">#&gt; [1] Alice-&gt;Bob  Bob  -&gt;Carol</span></span>
 <span></span>
 <span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">igraph_graph</span><span class="op">)</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="st">"knows"</span></span>
@@ -167,6 +171,23 @@ via <code><a href="../reference/as_tidygraph.html">as_tidygraph()</a></code>.</p
 <span></span>
 <span><span class="co"># Print the tidygraph object summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tidygraph_graph</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tbl_graph: 3 nodes and 2 edges</span></span>
+<span><span class="co">#&gt; #</span></span>
+<span><span class="co">#&gt; # A directed acyclic simple graph with 3 nodes and 2 edges</span></span>
+<span><span class="co">#&gt; #</span></span>
+<span><span class="co">#&gt; # Node Data: 3 x 2 (active)</span></span>
+<span><span class="co">#&gt;   name    age</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Alice    35</span></span>
+<span><span class="co">#&gt; 2 Bob      45</span></span>
+<span><span class="co">#&gt; 3 Carol    25</span></span>
+<span><span class="co">#&gt; #</span></span>
+<span><span class="co">#&gt; # Edge Data: 2 x 3</span></span>
+<span><span class="co">#&gt;    from    to since</span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1     2  2010</span></span>
+<span><span class="co">#&gt; 2     2     3  2015</span></span>
+<span></span>
 <span><span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html" class="external-link">ggraph</a></span><span class="op">(</span><span class="va">tidygraph_graph</span>, layout <span class="op">=</span> <span class="st">"kk"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_link.html" class="external-link">geom_edge_link</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#9ca3af"</span>, arrow <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">30</span>, length <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"mm"</span><span class="op">)</span><span class="op">)</span>, arrow.fill <span class="op">=</span> <span class="st">"#9ca3af"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggraph</span><span class="fu">::</span><span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_node_point.html" class="external-link">geom_node_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"#dc2626"</span>, size <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">+</span></span>

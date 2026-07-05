@@ -153,12 +153,20 @@ and the graph conversion functions will exhaust this iterator.
 # Convert to a data frame
 df_result <- as.data.frame(query_result)
 print(df_result)
+#>      u.name p.name purchase_date
+#> 1     Alice Laptop    2023-02-20
+#> 2       Bob  Mouse    2023-03-15
 
 # Convert to a tibble
 library(tibble)
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 tibble_result <- as_tibble(query_result)
 print(tibble_result)
+#> # A tibble: 2 x 3
+#>   u.name p.name purchase_date
+#>   <chr>  <chr>  <date>
+#> 1 Alice  Laptop 2023-02-20
+#> 2 Bob    Mouse  2023-03-15
 ```
 
 ### Use Query Results returned as list
@@ -169,16 +177,27 @@ query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.n
 
 result <- lb_get_all(query_result)
 print(result)
+#> [[1]]
+#> [[1]]$u.name
+#> [1] "Alice"
+#> ...
 
 # only fetch 1. result 
 query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u.name, p.name, b.purchase_date")
 
 result <- lb_get_n(query_result, 1)
 print(result)
+#> [[1]]
+#> [[1]]$u.name
+#> [1] "Alice"
+#> ...
 
 #Fetch next result
 result <- lb_get_next(query_result)
 print(result)
+#> $u.name
+#> [1] "Bob"
+#> ...
 ```
 
 ### Convert to Graph Objects
@@ -194,6 +213,10 @@ themselves, not just their properties.
 graph_query_result <- lb_execute(con, "MATCH (u:User)-[b:Buys]->(p:Product) RETURN u, p, b")
 igraph_obj <- as_igraph(graph_query_result)
 print(igraph_obj)
+#> IGRAPH UN-- 3 2 -- 
+#> + attr: name (v/c)
+#> + edges (vertex names):
+#> [1] Alice->Laptop Bob  ->Mouse
 
 plot(igraph_obj,
      vertex.color = "#dc2626",
@@ -208,6 +231,22 @@ plot(igraph_obj,
 # Convert to a tidygraph object
 tidygraph_obj <- as_tidygraph(graph_query_result)
 print(tidygraph_obj)
+#> # A tbl_graph: 3 nodes and 2 edges
+#> #
+#> # A directed acyclic simple graph with 3 nodes and 2 edges
+#> #
+#> # Node Data: 3 x 1 (active)
+#>   name 
+#>   <chr>
+#> 1 Alice
+#> 2 Bob  
+#> 3 Laptop
+#> #
+#> # Edge Data: 2 x 3
+#>    from    to purchase_date
+#>   <int> <int> <date>
+#> 1     1     3 2023-02-20
+#> 2     2     4 2023-03-15
 
 ggraph::ggraph(tidygraph_obj, layout = "kk") +
   ggraph::geom_edge_link(color = "#9ca3af", arrow = grid::arrow(angle = 30, length = grid::unit(3, "mm"))) +

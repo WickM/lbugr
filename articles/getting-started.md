@@ -88,6 +88,9 @@ result <- lb_execute(con, paste("MATCH (a:Person)-[k:Knows]->(b:Person)",
 # Convert the result to a data frame
 df <- as.data.frame(result)
 print(df)
+#>    a.name b.name since
+#> 1   Alice    Bob  2010
+#> 2     Bob  Carol  2015
 ```
 
 This concludes the “Getting Started” guide. For more advanced topics,
