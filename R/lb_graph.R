@@ -3,9 +3,6 @@
 #' @importFrom digest sha1
 #' @importFrom stats setNames
 
-# Cache environment for graph data extraction
-.lbugr_graph_cache_env <- new.env(parent = emptyenv())
-
 # Helper function to convert internal ID (list with offset and table) to unique string
 internal_id_to_string <- function(internal_id) {
   if (
@@ -20,84 +17,59 @@ internal_id_to_string <- function(internal_id) {
 }
 
 # Helper function to extract node and edge data from query result
-# Uses internal caching to avoid calling get_all() multiple times on the same query result
 extract_graph_data <- function(query_result) {
-  # Get a unique identifier for this query result
-  if (is.data.frame(query_result)) {
-    # data.frame results are already fully materialized by lb_execute();
-    # skip cross-call cache to avoid stale graph extraction after code updates.
-    qr_hash <- NULL
-  } else {
-    # For Python objects, hash the string representation
-    qr_hash <- digest::sha1(as.character(query_result))
+  if (!is.data.frame(query_result)) {
+    stop("`query_result` must be a data.frame from lb_execute().", call. = FALSE)
   }
 
-  # Check cache (Python query results only)
-  if (!is.null(qr_hash) && exists(qr_hash, envir = .lbugr_graph_cache_env)) {
-    return(get(qr_hash, envir = .lbugr_graph_cache_env))
-  }
+  all_rows_values <- lapply(seq_len(nrow(query_result)), function(i) {
+    row <- as.list(query_result[i, , drop = FALSE])
+    row_names <- names(row)
 
-  # Check if query_result is a data.frame (from lb_execute) or Python object
-  if (is.data.frame(query_result)) {
-    all_rows_values <- lapply(seq_len(nrow(query_result)), function(i) {
-      row <- as.list(query_result[i, , drop = FALSE])
-      row_names <- names(row)
+    # Reconstruct node/edge objects from flattened columns like:
+    # p._ID.offset, p._ID.table, p._LABEL, p.name, k._SRC.offset, ...
+    grouped <- list()
+    for (j in seq_along(row)) {
+      col_name <- row_names[[j]]
+      col_value <- row[[j]]
 
-      # Reconstruct node/edge objects from flattened columns like:
-      # p._ID.offset, p._ID.table, p._LABEL, p.name, k._SRC.offset, ...
-      grouped <- list()
-      for (j in seq_along(row)) {
-        col_name <- row_names[[j]]
-        col_value <- row[[j]]
-
-        if (!grepl("\\.", col_name)) {
-          next
-        }
-
-        alias <- sub("\\..*$", "", col_name)
-        field <- sub("^[^.]*\\.", "", col_name)
-
-        if (is.null(grouped[[alias]])) {
-          grouped[[alias]] <- list()
-        }
-
-        if (identical(field, "_LABEL")) {
-          grouped[[alias]][["_label"]] <- col_value
-        } else if (startsWith(field, "_ID.")) {
-          if (is.null(grouped[[alias]][["_id"]])) {
-            grouped[[alias]][["_id"]] <- list()
-          }
-          id_key <- tolower(sub("^_ID\\.", "", field))
-          grouped[[alias]][["_id"]][[id_key]] <- col_value
-        } else if (startsWith(field, "_SRC.")) {
-          if (is.null(grouped[[alias]][["_src"]])) {
-            grouped[[alias]][["_src"]] <- list()
-          }
-          src_key <- tolower(sub("^_SRC\\.", "", field))
-          grouped[[alias]][["_src"]][[src_key]] <- col_value
-        } else if (startsWith(field, "_DST.")) {
-          if (is.null(grouped[[alias]][["_dst"]])) {
-            grouped[[alias]][["_dst"]] <- list()
-          }
-          dst_key <- tolower(sub("^_DST\\.", "", field))
-          grouped[[alias]][["_dst"]][[dst_key]] <- col_value
-        } else {
-          grouped[[alias]][[field]] <- col_value
-        }
+      if (!grepl("\\.", col_name)) {
+        next
       }
 
-      unname(grouped)
-    })
-  } else {
-    all_rows_values <- list()
-    while (query_result$has_next()) {
-      all_rows_values <- c(all_rows_values, list(query_result$get_next()))
-    }
-  }
+      alias <- sub("\\..*$", "", col_name)
+      field <- sub("^[^.]*\\.", "", col_name)
 
-  # Convert Python objects to R before processing
-  all_rows_values <- lapply(all_rows_values, function(row) {
-    lapply(row, convert_python_to_r)
+      if (is.null(grouped[[alias]])) {
+        grouped[[alias]] <- list()
+      }
+
+      if (identical(field, "_LABEL")) {
+        grouped[[alias]][["_label"]] <- col_value
+      } else if (startsWith(field, "_ID.")) {
+        if (is.null(grouped[[alias]][["_id"]])) {
+          grouped[[alias]][["_id"]] <- list()
+        }
+        id_key <- tolower(sub("^_ID\\.", "", field))
+        grouped[[alias]][["_id"]][[id_key]] <- col_value
+      } else if (startsWith(field, "_SRC.")) {
+        if (is.null(grouped[[alias]][["_src"]])) {
+          grouped[[alias]][["_src"]] <- list()
+        }
+        src_key <- tolower(sub("^_SRC\\.", "", field))
+        grouped[[alias]][["_src"]][[src_key]] <- col_value
+      } else if (startsWith(field, "_DST.")) {
+        if (is.null(grouped[[alias]][["_dst"]])) {
+          grouped[[alias]][["_dst"]] <- list()
+        }
+        dst_key <- tolower(sub("^_DST\\.", "", field))
+        grouped[[alias]][["_dst"]][[dst_key]] <- col_value
+      } else {
+        grouped[[alias]][[field]] <- col_value
+      }
+    }
+
+    unname(grouped)
   })
 
   # Named list keyed by composite "label:name" — O(1) deduplication
@@ -224,11 +196,6 @@ extract_graph_data <- function(query_result) {
   }
 
   result <- list(nodes = nodes, edges = edges)
-
-  # Cache the result for future calls (Python query results only)
-  if (!is.null(qr_hash)) {
-    assign(qr_hash, result, envir = .lbugr_graph_cache_env)
-  }
 
   result
 }

@@ -1,3 +1,14 @@
+# lbugr 0.2.0
+
+* **Major change**: Migrated from Python (`reticulate`) to Rust (`lbug` crate) backend.
+* The Ladybug database engine is now bundled directly into the package via Rust, eliminating all external dependencies beyond R packages.
+* No Python installation required. Users no longer need to install Python 3.14+ or the `ladybug` Python package.
+* `check_ladybug_installation()` is now deprecated and will be removed in a future version.
+* Removed `reticulate` from package dependencies.
+* Added `SystemRequirements: Cargo (Rust's package manager), rustc` to DESCRIPTION.
+* All exported functions maintain the same API for backward compatibility.
+* Query results are now returned as data frames directly from the Rust backend.
+
 # lbugr 0.1.0
 
 * Initial release of `lbugr`.

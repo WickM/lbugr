@@ -37,15 +37,11 @@ Welcome to `lbugr`! This guide will walk you through the basic steps to get star
 
 ## Installation
 
-First, ensure you have the `lbugr` package installed. You will also need `reticulate` to manage the Python environment.
+First, ensure you have the `lbugr` package installed. The package includes the Ladybug database engine bundled via Rust, so no external dependencies are required.
 
 ```{r, eval=FALSE}
 # Install lbugr from GitHub
 remotes::install_github("your-github-repo/lbugr")
-
-
-# Install the ladybug Python package
-reticulate::py_install("ladybug", pip = TRUE)
 ```
 
 ## Basic Usage

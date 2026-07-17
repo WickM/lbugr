@@ -5,7 +5,7 @@ test_that("lb_connection creates an in-memory database connection", {
   skip_if_no_ladybug()
   
   conn <- test_conn(environment())
-  expect_s3_class(conn, "python.builtin.object")
+  expect_s3_class(conn, "lbugr_connection")
 })
 
 # Test that lb_connection can create a disk-based database
@@ -21,7 +21,7 @@ test_that("lb_connection creates a disk-based database", {
     cleanup_db()
     unlink(temp_db_dir, recursive = TRUE)
   }, add = TRUE)
-  expect_s3_class(conn, "python.builtin.object")
+  expect_s3_class(conn, "lbugr_connection")
 })
 
 # Test that lb_connection creates database if not exists
@@ -38,7 +38,7 @@ test_that("lb_connection creates database if not exists", {
     cleanup_db()
     unlink(temp_db_dir, recursive = TRUE)
   }, add = TRUE)
-  expect_s3_class(conn, "python.builtin.object")
+  expect_s3_class(conn, "lbugr_connection")
   
   # Verify database was created
   expect_true(file.exists(db_path))
