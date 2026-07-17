@@ -2,7 +2,7 @@
 
 # Test that lb_connection returns a connection object
 test_that("lb_connection creates an in-memory database connection", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   expect_s3_class(conn, "lbugr_connection")
@@ -10,7 +10,7 @@ test_that("lb_connection creates an in-memory database connection", {
 
 # Test that lb_connection can create a disk-based database
 test_that("lb_connection creates a disk-based database", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   temp_db_dir <- file.path(tempdir(), "test_lbugr_db")
   dir.create(temp_db_dir, recursive = TRUE, showWarnings = FALSE)
@@ -18,7 +18,7 @@ test_that("lb_connection creates a disk-based database", {
   
   conn <- lb_connection(db_path)
   on.exit({
-    cleanup_db()
+    cleanup_db(conn = conn)
     unlink(temp_db_dir, recursive = TRUE)
   }, add = TRUE)
   expect_s3_class(conn, "lbugr_connection")
@@ -26,7 +26,7 @@ test_that("lb_connection creates a disk-based database", {
 
 # Test that lb_connection creates database if not exists
 test_that("lb_connection creates database if not exists", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   temp_db_dir <- file.path(tempdir(), "test_lbugr_newdb")
   dir.create(temp_db_dir, recursive = TRUE, showWarnings = FALSE)
@@ -35,7 +35,7 @@ test_that("lb_connection creates database if not exists", {
   # Should create new database
   conn <- lb_connection(db_path)
   on.exit({
-    cleanup_db()
+    cleanup_db(conn = conn)
     unlink(temp_db_dir, recursive = TRUE)
   }, add = TRUE)
   expect_s3_class(conn, "lbugr_connection")
@@ -46,7 +46,7 @@ test_that("lb_connection creates database if not exists", {
 
 # Test that lb_execute executes a simple query
 test_that("lb_execute executes a simple query", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   
@@ -61,7 +61,7 @@ test_that("lb_execute executes a simple query", {
 
 # Test that lb_execute returns query results
 test_that("lb_execute returns query results with data", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   
@@ -80,7 +80,7 @@ test_that("lb_execute returns query results with data", {
 
 # Test lb_get_column_names
 test_that("lb_get_column_names returns column names", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -95,7 +95,7 @@ test_that("lb_get_column_names returns column names", {
 
 # Test lb_get_column_data_types
 test_that("lb_get_column_data_types returns data types", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -110,7 +110,7 @@ test_that("lb_get_column_data_types returns data types", {
 
 # Test lb_get_schema
 test_that("lb_get_schema returns schema information", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -124,7 +124,7 @@ test_that("lb_get_schema returns schema information", {
 
 # Test lb_get_all retrieves all results
 test_that("lb_get_all retrieves all results", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -140,7 +140,7 @@ test_that("lb_get_all retrieves all results", {
 
 # Test lb_get_n retrieves first n rows
 test_that("lb_get_n retrieves first n rows", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -157,7 +157,7 @@ test_that("lb_get_n retrieves first n rows", {
 
 # Test lb_get_next iterates through results
 test_that("lb_get_next iterates through results", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -178,7 +178,7 @@ test_that("lb_get_next iterates through results", {
 
 # Test lb_get_n with n=0 returns empty list
 test_that("lb_get_n with n=0 returns empty list", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -193,7 +193,7 @@ test_that("lb_get_n with n=0 returns empty list", {
 
 # Test lb_get_n with n greater than available rows
 test_that("lb_get_n handles n greater than available rows", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -209,7 +209,7 @@ test_that("lb_get_n handles n greater than available rows", {
 
 # Test as.data.frame method on query result
 test_that("as.data.frame converts query result to data.frame", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -226,7 +226,7 @@ test_that("as.data.frame converts query result to data.frame", {
 
 # Test as_tibble method on query result
 test_that("as_tibble converts query result to tibble", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   skip_if_not_installed("tibble")
   suppressWarnings(library(tibble))
   
@@ -235,7 +235,7 @@ test_that("as_tibble converts query result to tibble", {
   lb_execute(conn, "CREATE (:Person {name: 'Alice'})")
   
   result <- lb_execute(conn, "MATCH (p:Person) RETURN p.name")
-  # lb_execute now returns a data.frame directly
+  # lb_execute returns a data.frame directly
   tbl <- as_tibble(result)
   
   expect_s3_class(tbl, "tbl_df")
@@ -243,7 +243,7 @@ test_that("as_tibble converts query result to tibble", {
 
 # Test as.data.frame on empty result
 test_that("as.data.frame handles empty results", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -257,7 +257,7 @@ test_that("as.data.frame handles empty results", {
 
 # Test query with aggregation
 test_that("lb_execute handles aggregation queries", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -275,7 +275,7 @@ test_that("lb_execute handles aggregation queries", {
 
 # Test query with WHERE clause
 test_that("lb_execute handles WHERE clauses", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -292,7 +292,7 @@ test_that("lb_execute handles WHERE clauses", {
 
 # Test query with ORDER BY
 test_that("lb_execute handles ORDER BY", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -308,7 +308,7 @@ test_that("lb_execute handles ORDER BY", {
 
 # Test query with LIMIT
 test_that("lb_execute handles LIMIT", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, PRIMARY KEY (name))")
@@ -324,7 +324,7 @@ test_that("lb_execute handles LIMIT", {
 
 # Test query with DISTINCT
 test_that("lb_execute handles DISTINCT", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, city STRING, PRIMARY KEY (name))")
@@ -340,7 +340,7 @@ test_that("lb_execute handles DISTINCT", {
 
 # Test lb_get_column_data_types with different types
 test_that("lb_get_column_data_types returns correct types", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE TypesTest(id INT64, name STRING, value DOUBLE, flag BOOLEAN, PRIMARY KEY (id))")
@@ -355,7 +355,7 @@ test_that("lb_get_column_data_types returns correct types", {
 
 # Test lb_get_all on result with multiple columns
 test_that("lb_get_all handles multiple columns", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
@@ -370,7 +370,7 @@ test_that("lb_get_all handles multiple columns", {
 
 # Test lb_get_next returns correct data structure
 test_that("lb_get_next returns correct data structure", {
-  skip_if_no_ladybug()
+  skip_if_no_lbug()
   
   conn <- test_conn(environment())
   lb_execute(conn, "CREATE NODE TABLE Person(name STRING, age INT64, PRIMARY KEY (name))")
