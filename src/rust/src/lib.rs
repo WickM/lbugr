@@ -3,10 +3,9 @@ use lbug::{Connection, Database, SystemConfig, QueryResult, Value, NodeVal, RelV
 use std::collections::HashMap;
 
 // Wrapper struct to hold both Database and Connection
-// Using Box to ensure Database doesn't move, allowing Connection to hold a reference
 struct LbugConnection {
     db: Box<Database>,
-    conn: Connection,
+    conn: Connection<'static>,
 }
 
 impl LbugConnection {
@@ -31,7 +30,7 @@ impl LbugConnection {
 fn lbug_connect(path: &str) -> ExternalPtr<LbugConnection> {
     match LbugConnection::new(path) {
         Ok(conn) => ExternalPtr::new(conn),
-        Err(e) => stop!("{}", e),
+        Err(e) => panic!("{}", e),
     }
 }
 
@@ -39,7 +38,7 @@ fn lbug_connect(path: &str) -> ExternalPtr<LbugConnection> {
 #[extendr]
 fn lbug_execute(conn: &ExternalPtr<LbugConnection>, query: &str) -> Robj {
     let result = conn.conn.query(query)
-        .map_err(|e| stop!("Query execution failed: {}", e))?;
+        .expect("Query execution failed");
     
     query_result_to_dataframe(result)
 }
@@ -47,8 +46,6 @@ fn lbug_execute(conn: &ExternalPtr<LbugConnection>, query: &str) -> Robj {
 // Shutdown the database connection
 #[extendr]
 fn lbug_shutdown(conn: ExternalPtr<LbugConnection>) {
-    // Connection will be dropped when ExternalPtr is garbage collected
-    // Database shutdown happens automatically on drop
     drop(conn);
 }
 
@@ -59,9 +56,9 @@ fn lbug_is_available() -> bool {
 }
 
 // Convert a QueryResult to an R data.frame
-fn query_result_to_dataframe(mut result: QueryResult) -> Robj {
+fn query_result_to_dataframe(result: QueryResult) -> Robj {
     let col_names = result.get_column_names();
-    let col_types = result.get_column_data_types();
+    let _col_types = result.get_column_data_types();
     
     // Collect all rows using Iterator trait
     let rows: Vec<Vec<Value>> = result.collect();
@@ -76,7 +73,6 @@ fn query_result_to_dataframe(mut result: QueryResult) -> Robj {
         });
         
         if needs_expansion {
-            // Collect all field names for this column
             let mut fields = Vec::new();
             for row in &rows {
                 match &row[i] {
@@ -117,11 +113,11 @@ fn query_result_to_dataframe(mut result: QueryResult) -> Robj {
     
     // Create data.frame
     let n_rows = rows.len();
-    let col_names_r: Vec<Robj> = columns.iter().map(|(name, _)| r!(name)).collect();
+    let col_names_str: Vec<&str> = columns.iter().map(|(name, _)| name.as_str()).collect();
     let col_values_r: Vec<Robj> = columns.iter().map(|(_, val)| val.clone()).collect();
     
     let mut df = List::from_values(&col_values_r);
-    df.set_names(&col_names_r).unwrap();
+    df.set_names(col_names_str.as_slice()).unwrap();
     df.set_class(&["data.frame"]).unwrap();
     df.set_attrib("row.names", r!((1..=n_rows as i32).collect::<Vec<_>>())).unwrap();
     
@@ -136,7 +132,6 @@ fn get_node_fields(node: &NodeVal) -> Vec<String> {
         "_LABEL".to_string(),
     ];
     
-    // Add property names
     for (prop_name, _) in node.get_properties() {
         fields.push(prop_name.clone());
     }
@@ -156,7 +151,6 @@ fn get_rel_fields(rel: &RelVal) -> Vec<String> {
         "_DST.table".to_string(),
     ];
     
-    // Add property names
     for (prop_name, _) in rel.get_properties() {
         fields.push(prop_name.clone());
     }
@@ -166,15 +160,12 @@ fn get_rel_fields(rel: &RelVal) -> Vec<String> {
 
 // Build a column for simple (non-expanded) values
 fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
-    // Collect all values for this column
     let values: Vec<&Value> = rows.iter().map(|row| &row[col_idx]).collect();
     
-    // Determine the type and build appropriate R vector
     if values.is_empty() {
         return r!(());
     }
     
-    // Check first non-null value to determine type
     let first_non_null = values.iter().find(|v| !matches!(v, Value::Null(_)));
     
     match first_non_null {
@@ -239,9 +230,9 @@ fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
             let vals: Vec<Robj> = values.iter().map(|v| {
                 match v {
                     Value::Date(d) => {
-                        // Convert time::Date to days since epoch
-                        let epoch = time::Date::from_ordinal_date(1970, 1).unwrap();
-                        let days = (d - epoch).whole_days() as i32;
+                        // Convert time::Date to days since epoch using Julian day
+                        let epoch_jd = 2440588; // Julian day for 1970-01-01
+                        let days = (d.to_julian_day() - epoch_jd) as i32;
                         r!(days)
                     },
                     Value::Null(_) => r!(NA_INTEGER),
@@ -249,7 +240,6 @@ fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
                 }
             }).collect();
             let result = R!(c(!!!vals)).unwrap();
-            // Set Date class
             let mut date_vec = result;
             date_vec.set_class(&["Date"]).unwrap();
             date_vec
@@ -260,7 +250,6 @@ fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
                 match v {
                     Value::Timestamp(ts) | Value::TimestampTz(ts) | Value::TimestampNs(ts) | 
                     Value::TimestampMs(ts) | Value::TimestampSec(ts) => {
-                        // Convert to seconds since epoch
                         r!(ts.unix_timestamp() as f64 + ts.nanosecond() as f64 / 1_000_000_000.0)
                     },
                     Value::Null(_) => r!(NA_REAL),
@@ -268,13 +257,11 @@ fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
                 }
             }).collect();
             let result = R!(c(!!!vals)).unwrap();
-            // Set POSIXct class
             let mut posixct_vec = result;
             posixct_vec.set_class(&["POSIXct", "POSIXt"]).unwrap();
             posixct_vec
         }
         _ => {
-            // Default to character
             let vals: Vec<Robj> = values.iter().map(|v| {
                 match v {
                     Value::Null(_) => r!(NA_STRING),
@@ -288,8 +275,7 @@ fn build_simple_column(rows: &[Vec<Value>], col_idx: usize) -> Robj {
 
 // Build a column for expanded (Node/Rel) fields
 fn build_expanded_column(rows: &[Vec<Value>], field: &str) -> Robj {
-    let values: Vec<Robj> = rows.iter().map(|row| {
-        // Find the first Node or Rel value in the row
+    let _values: Vec<Robj> = rows.iter().map(|row| {
         for value in row {
             match value {
                 Value::Node(node) => return extract_node_field(node, field),
@@ -300,7 +286,7 @@ fn build_expanded_column(rows: &[Vec<Value>], field: &str) -> Robj {
         r!(NA_LOGICAL)
     }).collect();
     
-    R!(c(!!!values)).unwrap()
+    R!(c(!!!_values)).unwrap()
 }
 
 // Extract a field from a NodeVal
@@ -319,7 +305,6 @@ fn extract_node_field(node: &NodeVal, field: &str) -> Robj {
             r!(label.as_str())
         }
         _ => {
-            // Property field
             for (prop_name, prop_value) in node.get_properties() {
                 if prop_name == field {
                     return value_to_robj(prop_value);
@@ -333,36 +318,32 @@ fn extract_node_field(node: &NodeVal, field: &str) -> Robj {
 // Extract a field from a RelVal
 fn extract_rel_field(rel: &RelVal, field: &str) -> Robj {
     match field {
-        "_ID.offset" => {
-            let id = rel.get_rel_id();
-            r!(id.offset as i32)
-        }
-        "_ID.table" => {
-            let id = rel.get_rel_id();
-            r!(id.table_id as i32)
+        "_ID.offset" | "_ID.table" => {
+            // RelVal doesn't expose its own ID in the Rust API
+            // Use NA as placeholder
+            r!(NA_INTEGER)
         }
         "_LABEL" => {
             let label = rel.get_label_name();
             r!(label.as_str())
         }
         "_SRC.offset" => {
-            let src = rel.get_src_id();
+            let src = rel.get_src_node();
             r!(src.offset as i32)
         }
         "_SRC.table" => {
-            let src = rel.get_src_id();
+            let src = rel.get_src_node();
             r!(src.table_id as i32)
         }
         "_DST.offset" => {
-            let dst = rel.get_dst_id();
+            let dst = rel.get_dst_node();
             r!(dst.offset as i32)
         }
         "_DST.table" => {
-            let dst = rel.get_dst_id();
+            let dst = rel.get_dst_node();
             r!(dst.table_id as i32)
         }
         _ => {
-            // Property field
             for (prop_name, prop_value) in rel.get_properties() {
                 if prop_name == field {
                     return value_to_robj(prop_value);
@@ -390,8 +371,8 @@ fn value_to_robj(value: &Value) -> Robj {
         Value::Float(n) => r!(*n as f64),
         Value::String(s) => r!(s.as_str()),
         Value::Date(d) => {
-            let epoch = time::Date::from_ordinal_date(1970, 1).unwrap();
-            let days = (d - epoch).whole_days() as i32;
+            let epoch_jd = 2440588;
+            let days = (d.to_julian_day() - epoch_jd) as i32;
             let mut date_vec = r!(days);
             date_vec.set_class(&["Date"]).unwrap();
             date_vec
