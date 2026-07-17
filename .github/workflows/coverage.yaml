@@ -27,22 +27,8 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: actions/setup-python@v6
-        id: setup-python
-        with:
-          python-version: '3.14'
-
-      - name: Create .Renviron for RETICULATE_PYTHON
-        run: echo "RETICULATE_PYTHON=${{ steps.setup-python.outputs.python-path }}" > .Renviron
-        shell: bash
-
-      # The Python package name must match the R-CMD-check workflow.
-      # "ladybug" on PyPI is an old CSV package (v0.0.2); "real_ladybug"
-      # is the actual Ladybug graph-database client.
-      - name: Install Python dependencies
-        run: |
-          pip install real_ladybug
-        shell: bash
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
 
       # This step installs system libs for igraph/tidygraph and other dependencies
       - name: Install System Dependencies
@@ -51,7 +37,6 @@ jobs:
           extra-packages: |
             any::covr
             any::testthat
-            any::reticulate
             any::igraph
             any::tidygraph
 
@@ -63,26 +48,6 @@ jobs:
       - name: Verify package installation
         run: |
           Rscript -e "library(lbugr); print('Package loaded successfully')"
-        shell: bash
-
-      - name: Debug coverage environment
-        run: |
-          Rscript -e "
-            print('R version:')
-            print(R.version.string)
-            print('Loaded packages:')
-            print(search())
-            print('covr available:')
-            print('covr' %in% rownames(installed.packages()))
-            cat('Python packages installed:\n')
-            reticulate::py_run_string(\"from importlib.metadata import distributions; [print(d.metadata['Name']) for d in distributions()]\")
-            ladybug_available <- reticulate::py_module_available('ladybug')
-            print('ladybug available:')
-            print(ladybug_available)
-            if (!ladybug_available) {
-              warning('ladybug Python package is not available')
-            }
-          "
         shell: bash
 
       - name: Run coverage

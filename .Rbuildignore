@@ -30,3 +30,8 @@
 ^Agent\.md$
 ^docs$
 ^CRAN-SUBMISSION$
+^src/rust/target$
+^src/rust/Cargo\.lock$
+^src/\.cargo$
+^src/Makevars$
+^src/Makevars\.win$

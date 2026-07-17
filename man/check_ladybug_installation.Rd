@@ -2,7 +2,7 @@
 % Please edit documentation in R/lb_install.R
 \name{check_ladybug_installation}
 \alias{check_ladybug_installation}
-\title{Check for Ladybug Python Dependencies}
+\title{Check for Ladybug Installation (Deprecated)}
 \usage{
 check_ladybug_installation(quiet = FALSE)
 }
@@ -11,12 +11,13 @@ check_ladybug_installation(quiet = FALSE)
 }
 \value{
 \code{NULL} invisibly. The function is called for its side effect of
-checking dependencies and printing messages.
+printing messages.
 }
 \description{
-This function checks if the required Python package (\code{ladybug})
-is available in the user's \code{reticulate} environment. If the package is missing,
-it provides a clear, actionable message guiding the user on how to install it manually.
+This function is deprecated. As of version 0.2.0, \code{lbugr} bundles the
+Ladybug database engine via Rust, so there are no external dependencies
+to check. This function is kept for backward compatibility and will be
+removed in a future version.
 }
 \examples{
 \dontrun{

@@ -19,12 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release', python: '3.14'}
-          - {os: windows-latest, r: 'release', python: '3.14'}
-          - {os: windows-latest, r: 'release', python: '3.13.9'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release', python: '3.14'}
-          - {os: ubuntu-latest,   r: 'release', python: '3.14'}
-          - {os: ubuntu-latest,   r: 'oldrel-1', python: '3.14'}
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -41,24 +40,8 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - uses: actions/setup-python@v6
-        id: setup-python
-        with:
-          python-version: ${{ matrix.config.python }}
-
-      - name: Install Python dependencies
-        run: |
-          pip install real_ladybug
-        shell: bash
-
-      - name: Diagnose Python Environment
-        run: |
-          which python
-          python --version
-          pip list
-          python -c "import sys; print(sys.path)"
-          python -c "import real_ladybug; print('real_ladybug imported successfully')"
-        shell: bash
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -66,8 +49,6 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
-        env:
-          RETICULATE_PYTHON: ${{ steps.setup-python.outputs.python-path }}
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'

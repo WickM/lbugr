@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-skip_vignette <- !reticulate::py_module_available("ladybug")
+skip_vignette <- !lbug_is_available()
 ```
 
 # lbugr <img src="man/figures/logo.png" align="right" height="138"/>
@@ -26,7 +26,7 @@ skip_vignette <- !reticulate::py_module_available("ladybug")
 
 ## Overview
 
-`lbugr` provides an R interface to the [Ladybug Graph Database](https://ladybugdb.com/), a high-performance, embedded graph database. The package acts as a wrapper around the official Python `ladybug` client, using the `reticulate` package to bridge the two languages. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
+`lbugr` provides an R interface to the [Ladybug Graph Database](https://ladybugdb.com/), a high-performance, embedded graph database. The package uses the official Rust `lbug` client, which is bundled directly into the package with no external dependencies. This allows you to interact with Ladybug seamlessly within your R environment, integrating its powerful graph computation capabilities into your existing data analysis workflows.
 
 The primary goal of `lbugr` is to provide an idiomatic R experience for:
 - Creating and managing Ladybug database instances.
@@ -36,9 +36,7 @@ The primary goal of `lbugr` is to provide an idiomatic R experience for:
 
 ## Installation
 
-`lbugr` requires **Python 3.14 or later** with the `ladybug` package.
-
-> **Note**: Python 3.14+ is required due to fixes in the underlying kuzu database engine that resolve VirtualAlloc memory issues.
+`lbugr` bundles the Ladybug database engine via Rust, so there are no external dependencies beyond R packages.
 
 1. **Install the R Package**
 
@@ -55,24 +53,14 @@ Or install the development version from GitHub:
 pak::pak("WickM/lbugr")
 ```
 
-2. **Install Python Dependencies**
+2. **Verify Installation**
 
-After installing `lbugr`, you must install the required Python packages. You can do this from your R console using `reticulate`:
+You can verify that the package is correctly installed by running:
 
 ``` r
 library(lbugr)
-reticulate::py_install("ladybug", pip = TRUE)
-```
-
-> **Important**: Ensure you have Python 3.14 or later installed. You can verify your Python version with `py -3.14 --version` (Windows) or `python3 --version` (macOS/Linux).
-
-3. **Verify Installation**
-
-You can check that all dependencies are correctly installed by running:
-
-``` r
-check_ladybug_installation()
-#> The 'ladybug' Python package is installed and available.
+con <- lb_connection(":memory:")
+lb_execute(con, "RETURN 1 AS test")
 ```
 
 ## Usage

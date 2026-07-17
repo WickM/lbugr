@@ -1,11 +1,12 @@
 Package: lbugr
 Title: Interface to 'ladybug' Graph Database
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre", "cph"))
 Maintainer: Manuel Wick-Eckl <manuel.wick@gmail.com>
 Description: Provides a high-performance 'R' interface to the 'ladybug' graph database.
-    Uses the 'reticulate' package to wrap the official Python 'ladybug' client.
+    Uses the 'lbug' Rust crate to interface with the 'Ladybug' database engine,
+    bundled directly into the package with no external dependencies.
     Enables seamless interaction with 'Ladybug' from within 'R' for managing database
     connections, executing 'Cypher' queries, and loading data from 'R' data frames.
     Converts query results into popular 'R' data structures including 'tibble',
@@ -13,8 +14,8 @@ Description: Provides a high-performance 'R' interface to the 'ladybug' graph da
 URL: https://wickm.github.io/lbugr/, https://github.com/WickM/lbugr
 BugReports: https://github.com/WickM/lbugr/issues
 License: MIT + file LICENSE
+SystemRequirements: Cargo (Rust's package manager), rustc
 Imports:
-    reticulate,
     digest,
     tibble
 Suggests:

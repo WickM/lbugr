@@ -1,33 +1,38 @@
 # Installation Check for lbugr
 
-#' Check for Ladybug Python Dependencies
+#' Check for Ladybug Dependencies
 #'
-#' This function checks if the required Python package (`ladybug`)
-#' is available in the user's `reticulate` environment. If the package is missing,
-#' it provides a clear, actionable message guiding the user on how to install it manually.
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function is deprecated. As of version 0.2.0, `lbugr` bundles the
+#' Ladybug database engine via Rust, so there are no external dependencies
+#' to check. This function is kept for backward compatibility and will be
+#' removed in a future version.
 #'
 #' @param quiet If TRUE, suppress the success message. Default is FALSE.
 #' @return `NULL` invisibly. The function is called for its side effect of
-#'   checking dependencies and printing messages.
+#'   printing messages.
 #' @export
 #' @examples
 #' \dontrun{
 #' check_ladybug_installation()
 #' }
 check_ladybug_installation <- function(quiet = FALSE) {
-  ladybug_available <- reticulate::py_module_available("ladybug")
-
-  if (!ladybug_available) {
-    stop(
-      "The 'ladybug' Python package is not installed.",
-      "\nTo install it, please run the following command in your R console:",
-      "\nreticulate::py_install('ladybug', pip = TRUE)",
-      call. = FALSE
+  .Deprecated(
+    msg = paste0(
+      "check_ladybug_installation() is deprecated as of lbugr 0.2.0.\n",
+      "The Ladybug database engine is now bundled via Rust and requires no ",
+      "external dependencies.\n",
+      "This function will be removed in a future version."
     )
-  }
-
+  )
+  
   if (!quiet) {
-    message("The 'ladybug' Python package is installed and available.")
+    message(
+      "The 'lbugr' package is ready. The Ladybug database engine is bundled ",
+      "and no external dependencies are required."
+    )
   }
   invisible(NULL)
 }

@@ -31,13 +31,8 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.14'
-
-      - name: Install python dependencies
-        run: |
-          pip install ladybug
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:

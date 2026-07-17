@@ -123,7 +123,7 @@ lb_copy_from_file <- function(
     query <- paste0(query, " (", opts, ")")
   }
 
-  conn$execute(query)
+  lb_execute(conn, query)
   invisible(NULL)
 }
 
