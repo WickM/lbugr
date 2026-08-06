@@ -10,7 +10,10 @@
 ^\.Renviron$
 ^\.Rprofile$
 ^pkgdown$
-
+^src/rust/target$
+^src/rust/Cargo\.lock$
+^src/rust/Cargo\.toml$
+^src/rust/src$
 ^\.kilo$
 ^nul$
 ^LICENSE\.md$

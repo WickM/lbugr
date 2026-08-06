@@ -12,7 +12,7 @@ lb_execute(conn, query)
 \item{query}{A string containing the Cypher query to be executed.}
 }
 \value{
-A Python object representing the query result.
+A data.frame containing the query results.
 }
 \description{
 Submits a Cypher query to the Ladybug database for execution. This function

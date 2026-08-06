@@ -1,0 +1,38 @@
+#ifndef LBUGR_COMPAT_FORMAT_H
+#define LBUGR_COMPAT_FORMAT_H
+
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+#include <type_traits>
+
+namespace std {
+    template<typename... Args>
+    string format(const string& fmt, Args&&... args) {
+        ostringstream oss;
+        size_t pos = 0;
+        size_t arg_index = 0;
+        while (pos < fmt.size()) {
+            auto open = fmt.find('{', pos);
+            if (open == string::npos) {
+                oss << fmt.substr(pos);
+                break;
+            }
+            oss << fmt.substr(pos, open - pos);
+            if (open + 1 < fmt.size() && fmt[open + 1] == '}') {
+                if (arg_index < sizeof...(Args)) {
+                    oss << args;
+                    arg_index++;
+                }
+                pos = open + 2;
+            } else {
+                oss << fmt[open];
+                pos = open + 1;
+            }
+        }
+        return oss.str();
+    }
+}
+
+#endif

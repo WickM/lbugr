@@ -8,3 +8,4 @@ debug_test.R
 docs/
 AGENTS.md
 .Renviron
+src/rust/target/

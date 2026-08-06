@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Check for Rust/Cargo
+
+RUSTC=${RUSTC:-rustc}
+CARGO=${CARGO:-cargo}
+
+if ! command -v "${CARGO}" >/dev/null 2>&1; then
+  echo "ERROR: cargo (Rust package manager) is required but was not found" >&2
+  exit 1
+fi
+
+if ! command -v "${RUSTC}" >/dev/null 2>&1; then
+  echo "ERROR: rustc is required but was not found" >&2
+  exit 1
+fi
+
+CARGO_VERSION=$("${CARGO}" --version 2>/dev/null)
+RUSTC_VERSION=$("${RUSTC}" --version 2>/dev/null)
+echo "found ${CARGO_VERSION}"
+echo "found ${RUSTC_VERSION}"

@@ -1,0 +1,20 @@
+TARGET_DIR = ./rust/target
+LIBDIR = $(TARGET_DIR)/release
+STATLIB = $(LIBDIR)/liblbugr.a
+PKG_LIBS = -L$(LIBDIR) -llbugr
+
+all: C_clean
+
+$(SHLIB): rust/src/lib.rs $(STATLIB)
+
+rust/src/lib.rs:
+	cd rust && cargo build --release
+
+$(STATLIB): rust/src/lib.rs
+	cd rust && cargo build --release
+
+C_clean:
+	rm -Rf $(SHLIB) $(STATLIB) $(OBJECTS)
+
+clean:
+	rm -Rf $(SHLIB) $(STATLIB) $(OBJECTS) rust/target

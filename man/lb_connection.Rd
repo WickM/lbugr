@@ -11,7 +11,7 @@ lb_connection(path)
 in-memory database, use \code{":memory:"}.}
 }
 \value{
-A Python object representing the connection to the Ladybug database.
+An external pointer to the Ladybug database connection.
 }
 \description{
 Establishes a connection to a Ladybug database. If the database does not exist
@@ -30,14 +30,5 @@ dir.create(temp_db_dir, recursive = TRUE, showWarnings = FALSE)
 
 # Establish connection
 conn_disk <- lb_connection(db_path)
-
-# Ensure the database is shut down and removed on exit
-on.exit({
-  db <- attr(conn_disk, "lbugr_db")
-  if (!is.null(db)) {
-    db$shutdown()
-  }
-  unlink(temp_db_dir, recursive = TRUE)
-})
 }
 }

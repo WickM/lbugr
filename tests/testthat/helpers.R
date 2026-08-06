@@ -3,69 +3,41 @@
 # This file provides shared test utilities, fixtures, and helper functions
 # to support the test suite.
 
-#' Skip test if ladybug Python package is not available
+#' Skip test if Rust backend is not available
 #'
 #' @keywords internal
-skip_if_no_ladybug <- function() {
-  ladybug_avail <- reticulate::py_module_available("ladybug")
-
-  if (!ladybug_avail) {
-    skip("ladybug Python package not available")
+skip_if_no_lbug <- function() {
+  if (!lbug_is_available()) {
+    skip("Rust backend not available")
   }
 }
 
 #' Clean up test database resources
 #'
-#' Shuts down the Ladybug database and removes temporary database files.
-#' This is critical to prevent memory accumulation and VirtualAlloc errors
-#' when running many tests in sequence.
+#' Shuts down the Rust database connection and removes temporary database files.
 #'
 #' @param conn Connection object (optional)
 #' @param db_dir Database directory to remove (optional)
 cleanup_db <- function(conn = NULL, db_dir = NULL) {
-  # Use connection-attached db_dir when not passed explicitly
-  if (is.null(db_dir) && !is.null(conn)) {
-    db_dir <- attr(conn, "lbugr_test_db_dir", exact = TRUE)
-  }
-
-  # Try shutdown through passed connection's Python main context
   if (!is.null(conn)) {
     tryCatch(
       {
-        main <- reticulate::import_main()
-        main$conn <- conn
-        reticulate::py_run_string(
-          "try:\n    conn.database.shutdown()\nexcept Exception:\n    pass",
-          convert = FALSE
-        )
+        lbug_shutdown(conn)
       },
       error = function(e) {
         # Ignore cleanup errors
       }
     )
   }
-
-  # Try shutdown through global main$db if present
-  tryCatch(
-    {
-      main <- reticulate::import_main()
-      if (!is.null(main$db)) {
-        main$db$shutdown()
-      }
-    },
-    error = function(e) {
-      # Ignore cleanup errors
-    }
-  )
-
+  
   # Encourage prompt resource release between tests
   tryCatch(gc(), error = function(e) NULL)
-
+  
   # Remove temp database directory if provided
   if (!is.null(db_dir) && nzchar(db_dir) && dir.exists(db_dir)) {
     tryCatch(unlink(db_dir, recursive = TRUE, force = TRUE), error = function(e) NULL)
   }
-
+  
   invisible(NULL)
 }
 
@@ -89,13 +61,13 @@ create_test_db_path <- function() {
 test_conn <- function(test = NULL) {
   # Use in-memory database for faster test execution
   conn <- lb_connection(":memory:")
-
+  
   # Register cleanup only when a test env is provided
   if (!is.null(test)) {
     test$old_conn <- conn
     withr::defer(cleanup_db(conn = conn), envir = test)
   }
-
+  
   conn
 }
 
@@ -210,7 +182,7 @@ skip_if_pkg_missing <- function(pkg) {
 #' @param expected_rows Expected number of rows
 #' @param expected_cols Expected number of columns (optional)
 verify_result <- function(result, expected_rows = NULL, expected_cols = NULL) {
-  expect_s3_class(result, "python.builtin.object")
+  expect_s3_class(result, "data.frame")
   
   col_names <- lb_get_column_names(result)
   expect_type(col_names, "character")
@@ -221,8 +193,7 @@ verify_result <- function(result, expected_rows = NULL, expected_cols = NULL) {
   }
   
   if (!is.null(expected_rows)) {
-    df <- as.data.frame(result)
-    expect_equal(nrow(df), expected_rows)
+    expect_equal(nrow(result), expected_rows)
   }
 }
 
