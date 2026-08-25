@@ -226,30 +226,31 @@ test_that("lb_copy_from_csv handles custom delimiter", {
 # Test lb_copy_from_json loads JSON data
 test_that("lb_copy_from_json loads JSON data", {
   skip_if_no_ladybug()
-  
+
   conn <- test_conn(environment())
-  
-  tryCatch(
-    lb_execute(conn, "INSTALL json; LOAD json;"),
-    error = function(e) skip("JSON extension not available")
-  )
-  
+
+  # lb_copy_from_json() now installs the JSON extension itself. Probe
+  # availability first; skip gracefully if the deployment does not allow it.
+  if (!lb_ensure_json_extension(conn)) {
+    skip("JSON extension not available")
+  }
+
   # Create node table
   lb_execute(conn, "CREATE NODE TABLE Product(id INT64, name STRING, PRIMARY KEY (id))")
-  
+
   # Create temporary JSON file
   json_file <- tempfile(fileext = ".json")
   on.exit(unlink(json_file), add = TRUE)
   json_data <- '[{"id": 1, "name": "Laptop"}, {"id": 2, "name": "Mouse"}]'
   writeLines(json_data, json_file)
-  
+
   # Load from JSON
   lb_copy_from_json(conn, json_file, "Product")
-  
+
   # Verify data was loaded
   result <- lb_execute(conn, "MATCH (p:Product) RETURN p.id, p.name")
   df_result <- as.data.frame(result)
-  
+
   expect_gte(nrow(df_result), 1)
 })
 
@@ -722,10 +723,9 @@ test_that("lb_copy_from_json handles empty JSON files", {
   skip_if_no_ladybug()
   conn <- test_conn(environment())
 
-  tryCatch(
-    lb_execute(conn, "INSTALL json; LOAD json;"),
-    error = function(e) skip("JSON extension not available")
-  )
+  if (!lb_ensure_json_extension(conn)) {
+    skip("JSON extension not available")
+  }
 
   # Create an empty JSON file (empty array)
   json_content <- "[]"
@@ -745,6 +745,48 @@ test_that("lb_copy_from_json handles empty JSON files", {
   # Query and verify that the table is empty
   result <- lb_execute(conn, "MATCH (e:EmptyJsonTable) RETURN count(e)")
   expect_equal(as.data.frame(result)[[1]], 0)
+})
+
+# Test lb_copy_from_json warns and returns invisibly when the JSON extension
+# is unavailable, without surfacing the raw Cypher error. The helper is mocked
+# to emit the same warning it would in production and return FALSE, so only
+# the R-side warning/skip path is exercised; the test still requires a
+# Ladybug connection just to obtain a `conn` argument shape consistent with
+# the public API.
+test_that("lb_copy_from_json warns and skips when JSON extension is unavailable", {
+  skip_if_no_ladybug()
+
+  testthat::local_mocked_bindings(
+    lb_ensure_json_extension = function(conn) {
+      warning(
+        "The Ladybug 'json' extension could not be installed or loaded.\n",
+        "Reason: simulated failure\n",
+        "`lb_copy_from_json()` will skip the COPY and return invisibly.",
+        call. = FALSE
+      )
+      FALSE
+    }
+  )
+
+  conn <- test_conn(environment())
+
+  json_file <- tempfile(fileext = ".json")
+  writeLines("[{\"id\": 1}]", json_file)
+  on.exit(unlink(json_file), add = TRUE)
+
+  expect_warning(
+    result <- lb_copy_from_json(conn, json_file, "SkippedTable"),
+    "json.* extension"
+  )
+  expect_null(result)
+
+  # No COPY was attempted and no table was created. A MATCH against a missing
+  # table produces a Cypher error which we surface as NULL here.
+  check <- tryCatch(
+    lb_execute(conn, "MATCH (s:SkippedTable) RETURN count(s)"),
+    error = function(e) NULL
+  )
+  expect_null(check)
 })
 
 # Test lb_copy_from_parquet handles empty parquet files

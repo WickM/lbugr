@@ -285,17 +285,47 @@ lb_copy_from_csv <- function(
   )
 }
 
+# Ensure the Ladybug 'json' extension is installed and loaded.
+# Returns TRUE on success; on failure emits a single informative warning and
+# returns FALSE. Used by lb_copy_from_json() so callers get a graceful
+# warning instead of a raw Cypher error on deployments where the extension
+# is not available or not permitted.
+lb_ensure_json_extension <- function(conn) {
+  tryCatch(
+    {
+      lb_execute(conn, query = "INSTALL json; LOAD json;")
+      TRUE
+    },
+    error = function(e) {
+      warning(
+        "The Ladybug 'json' extension could not be installed or loaded.\n",
+        "Reason: ",
+        conditionMessage(e),
+        "\n`lb_copy_from_json()` will skip the COPY and return invisibly.",
+        call. = FALSE
+      )
+      FALSE
+    }
+  )
+}
+
 #' Load Data from a JSON File into a Ladybug Table
 #'
 #' Loads data from a JSON file into a specified table in the Ladybug database.
 #' This function also ensures the JSON extension is loaded and available.
+#'
+#' If the Ladybug `json` extension cannot be installed or loaded (for example
+#' on deployments where extensions are disabled by the server administrator), a
+#' `warning()` is emitted and the function returns invisibly without
+#' attempting the `COPY`.
 #'
 #' @param conn A Ladybug connection object.
 #' @param file_path A string specifying the path to the JSON file.
 #' @param table_name A string specifying the name of the destination table in
 #' Ladybug.
 #' @return This function is called for its side effect of loading data and does
-#'   not return a value.
+#'   not return a value. On failure to install the JSON extension it returns
+#'   `invisible(NULL)` after warning.
 #' @export
 #' @examples
 #' \dontrun{
@@ -320,7 +350,11 @@ lb_copy_from_csv <- function(
 #' }
 #' @seealso \href{https://ladybugdb.com/import/copy-from-json}{Ladybug JSON Import}, \href{https://ladybugdb.com/extensions/json}{Ladybug JSON Extension}
 lb_copy_from_json <- function(conn, file_path, table_name) {
-  lb_execute(conn, query = "INSTALL json; LOAD json;")
+  validate_table_name(table_name)
+
+  if (!lb_ensure_json_extension(conn)) {
+    return(invisible(NULL))
+  }
 
   lb_copy_from_file(conn, file_path = file_path, table_name = table_name)
 

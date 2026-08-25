@@ -16,11 +16,18 @@ Ladybug.}
 }
 \value{
 This function is called for its side effect of loading data and does
-not return a value.
+not return a value. On failure to install the JSON extension it returns
+\code{invisible(NULL)} after warning.
 }
 \description{
 Loads data from a JSON file into a specified table in the Ladybug database.
 This function also ensures the JSON extension is loaded and available.
+}
+\details{
+If the Ladybug \code{json} extension cannot be installed or loaded (for example
+on deployments where extensions are disabled by the server administrator), a
+\code{warning()} is emitted and the function returns invisibly without
+attempting the \code{COPY}.
 }
 \examples{
 \dontrun{

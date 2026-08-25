@@ -1,3 +1,11 @@
+# lbugr (development version)
+
+* `lb_copy_from_json()` now detects whether the Ladybug `json` extension can
+  be installed and loaded. If not, it emits an informative `warning()` and
+  returns invisibly instead of failing with a Cypher error. This makes
+  loading JSON usable on deployments where server-side extensions are
+  disabled.
+
 # lbugr 0.1.0
 
 * Initial release of `lbugr`.
