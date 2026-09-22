@@ -27,8 +27,28 @@ query_result_to_df <- function(py_result) {
     }
   }
 
-  do.call(rbind, lapply(df_list, function(x) {
+  # Rows may flatten to different columns (e.g. OPTIONAL MATCH: rows with
+  # and without a relationship produce `r` vs. `r.*` fields), and may carry
+  # empty list values (e.g. COPY_FROM's `skipped_duplicate_pks = []`):
+  # normalize empties to NA, flatten first, then union the column sets
+  # (first-seen order) and fill missing columns with NA instead of failing
+  # in as.data.frame()/rbind().
+  flat_list <- lapply(df_list, function(x) {
+    for (nm in names(x)) {
+      v <- x[[nm]]
+      if (is.null(v) || (is.list(v) && length(v) == 0L)) {
+        x[[nm]] <- NA
+      }
+    }
     as.data.frame(x, stringsAsFactors = FALSE, check.names = FALSE)
+  })
+  all_cols <- unique(unlist(lapply(flat_list, names)))
+  do.call(rbind, lapply(flat_list, function(x) {
+    missing <- setdiff(all_cols, names(x))
+    for (nm in missing) {
+      x[[nm]] <- NA
+    }
+    x[all_cols]
   }))
 }
 

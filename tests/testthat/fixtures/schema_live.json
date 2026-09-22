@@ -1,0 +1,383 @@
+{
+  "node_tables": [
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_datenart",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "datenart_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "key",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "datenart"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_prozess",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "prozess_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "prozess_eigner",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "prozess_level",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 4,
+          "type": "STRING"
+        }
+      ],
+      "count": 1,
+      "name": "prozess"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_businessterm",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "businessterm_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "businessterm_status",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "context",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 4,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "masterterme"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_applikation",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "applikation_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "applikation_eigner",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "applikation_accountable",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 4,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "applikation"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_geschaeftsbegriff",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "geschaeftsbegriff_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "context",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "geschaeftsbegriff"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_database_column",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "database_column_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "context",
+          "primary key": false,
+          "property id": 2,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "type",
+          "primary key": false,
+          "property id": 3,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "database_column"
+    },
+    {
+      "columns": [
+        {
+          "default expression": "NULL",
+          "name": "bezeichnung_meldung",
+          "primary key": false,
+          "property id": 0,
+          "type": "STRING"
+        },
+        {
+          "default expression": "NULL",
+          "name": "meldung_id",
+          "primary key": true,
+          "property id": 1,
+          "type": "STRING"
+        }
+      ],
+      "count": 0,
+      "name": "meldung"
+    }
+  ],
+  "rel_tables": [
+    {
+      "connection": [
+        {
+          "from": "datenart",
+          "from_pk": "datenart_id",
+          "to": "datenart",
+          "to_pk": "datenart_id"
+        }
+      ],
+      "count": 0,
+      "name": "datenart_kat"
+    },
+    {
+      "connection": [
+        {
+          "from": "datenart",
+          "from_pk": "datenart_id",
+          "to": "masterterme",
+          "to_pk": "businessterm_id"
+        }
+      ],
+      "count": 0,
+      "name": "masterterme_datenart_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "masterterme",
+          "from_pk": "businessterm_id",
+          "to": "geschaeftsbegriff",
+          "to_pk": "geschaeftsbegriff_id"
+        }
+      ],
+      "count": 0,
+      "name": "masterterme_terme_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "prozess",
+          "from_pk": "prozess_id",
+          "to": "geschaeftsbegriff",
+          "to_pk": "geschaeftsbegriff_id"
+        }
+      ],
+      "count": 0,
+      "name": "prozesse_terme_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "geschaeftsbegriff",
+          "from_pk": "geschaeftsbegriff_id",
+          "to": "database_column",
+          "to_pk": "database_column_id"
+        }
+      ],
+      "count": 0,
+      "name": "dq_reporting_term_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "prozess",
+          "from_pk": "prozess_id",
+          "to": "applikation",
+          "to_pk": "applikation_id"
+        }
+      ],
+      "count": 0,
+      "name": "prozesse_application_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "applikation",
+          "from_pk": "applikation_id",
+          "to": "geschaeftsbegriff",
+          "to_pk": "geschaeftsbegriff_id"
+        }
+      ],
+      "count": 0,
+      "name": "application_terme_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "geschaeftsbegriff",
+          "from_pk": "geschaeftsbegriff_id",
+          "to": "database_column",
+          "to_pk": "database_column_id"
+        }
+      ],
+      "count": 0,
+      "name": "dq_operativ_term_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "geschaeftsbegriff",
+          "from_pk": "geschaeftsbegriff_id",
+          "to": "database_column",
+          "to_pk": "database_column_id"
+        }
+      ],
+      "count": 0,
+      "name": "dq_dispositiv_term_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "meldung",
+          "from_pk": "meldung_id",
+          "to": "geschaeftsbegriff",
+          "to_pk": "geschaeftsbegriff_id"
+        }
+      ],
+      "count": 0,
+      "name": "meldung_term_rel"
+    },
+    {
+      "connection": [
+        {
+          "from": "meldung",
+          "from_pk": "meldung_id",
+          "to": "database_column",
+          "to_pk": "database_column_id"
+        }
+      ],
+      "count": 0,
+      "name": "meldung_database_column_rel"
+    }
+  ]
+}
