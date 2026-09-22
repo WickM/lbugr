@@ -14,8 +14,15 @@
 <url><loc>https://wickm.github.io/lbugr/reference/as_igraph.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/as_tibble.ladybug.query_result.QueryResult.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/as_tidygraph.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/cap_graph.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/check_ladybug_installation.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/context_state.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/convert_python_to_r.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/detect_label_cols.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/df_to_xlsx.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/ego_subgraph.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/generate_graph_query.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/graph_viewer.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/index.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/lb_connection.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/lb_copy_from_csv.html</loc></url>
@@ -31,5 +38,17 @@
 <url><loc>https://wickm.github.io/lbugr/reference/lb_get_next.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/lb_get_schema.html</loc></url>
 <url><loc>https://wickm.github.io/lbugr/reference/lb_merge_df.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/make_unique.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/parse_schema.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/rows_to_df.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/rows_to_graph.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/rows_to_json.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/table_to_csv.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/try_rows_to_graph.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/viewer_blocked_keywords.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/viewer_catalog.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/viewer_check_query.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/viewer_fetch_schema.html</loc></url>
+<url><loc>https://wickm.github.io/lbugr/reference/viewer_run_query.html</loc></url>
 </urlset>
 
