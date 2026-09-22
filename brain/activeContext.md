@@ -11,7 +11,7 @@ _Last updated: 2026-09-22. Current live state of the project — source of truth
 
 ## Current State (2026-09-22)
 
-- `main` @ tag v0.1.1, clean tree. Last commit: `fix(python): delay initialization to resolve CRAN CPU time NOTEs`.
+- `main` @ `cd39fdd` (1 commit ahead of tag v0.1.1), clean tree. Last commit: `chore: initialise brain/ (activeContext + progress), exclude from R build`.
 - No open work on `main`.
 
 ## Open Branches / Pending Decisions
