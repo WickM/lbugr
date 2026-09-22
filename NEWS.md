@@ -1,3 +1,12 @@
+# lbugr (development version)
+
+* New `graph_viewer()`: an interactive local Shiny app (g6R graph + reactable
+  table) to explore a `lb_connection()` database — node/relationship type
+  filters, N-hop focus subgraph, pagination, free Cypher queries with
+  graph-capable and table fallback, and CSV/Excel/JSON/PNG exports.
+  Requires suggested packages: `shiny`, `bslib`, `g6R`, `reactable`,
+  `openxlsx`, `jsonlite`, `rlang`.
+
 # lbugr 0.1.0
 
 * Initial release of `lbugr`.

@@ -1,6 +1,6 @@
 Package: lbugr
 Title: Interface to 'ladybug' Graph Database
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     person("Manuel", "Wick-Eckl", , "manuel.wick@gmail.com", role = c("aut", "cre", "cph"))
 Maintainer: Manuel Wick-Eckl <manuel.wick@gmail.com>
@@ -19,6 +19,11 @@ Imports:
     tibble
 Suggests:
     g6R,
+    shiny,
+    bslib,
+    reactable,
+    openxlsx,
+    rlang,
     igraph,
     tidygraph,
     ggraph,
@@ -34,5 +39,5 @@ VignetteBuilder: knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Language: en-US
+Config/roxygen2/version: 8.0.0

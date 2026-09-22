@@ -165,6 +165,10 @@ rel_to_table <- function(rel_types, schema_map) {
 }
 
 #' First occurrence keeps the bare id, later duplicates get `:2`, `:3`, ...
+#'
+#' @param ids A character vector of ids.
+#' @return A character vector of the same length, with duplicates suffixed.
+#' @keywords internal
 make_unique <- function(ids) {
   out <- character(length(ids))
   seen <- new.env(parent = emptyenv())

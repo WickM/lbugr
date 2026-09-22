@@ -171,6 +171,12 @@ viewer_fetch_schema <- function(conn) {
 }
 
 #' Call a private ladybug catalog helper with a clear failure message.
+#'
+#' @param conn A Ladybug connection object, as returned by `lb_connection()`.
+#' @param fn The name of a private catalog method on the connection.
+#' @param ... Arguments passed to the catalog method.
+#' @return The R-converted return value of the catalog method.
+#' @keywords internal
 viewer_catalog <- function(conn, fn, ...) {
   tryCatch(
     reticulate::py_to_r(conn[[fn]](...)),
@@ -189,6 +195,12 @@ viewer_catalog <- function(conn, fn, ...) {
   )
 }
 #' Ordered label candidates: `label`, first `bezeichnung_*`, then primary key.
+#'
+#' @param cols A list of column descriptors (each a list with at least a
+#'   `name` entry) for one table.
+#' @param pk The primary-key column name.
+#' @return A character vector of candidate label column names (no duplicates).
+#' @keywords internal
 detect_label_cols <- function(cols, pk) {
   names <- vapply(cols, function(col) col[["name"]], character(1))
   cands <- character(0)
