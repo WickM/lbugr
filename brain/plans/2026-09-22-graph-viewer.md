@@ -1,6 +1,6 @@
 # Graph Viewer (graph_viewer) — Deep Plan
 
-Date: 2026-09-22 · Branch: `feature/graph-viewer` · Status: **APPROVED** (2026-09-22, user) · Phase 0 (Spike) next
+Date: 2026-09-22 · Branch: `feature/graph-viewer` · Status: **APPROVED** (2026-09-22, user) · Phases 0–3 done + committed · Phase 4: check/build/tarball verified — **open: DC9 manual browser smoke (with user) + merge decision**
 Reference app: `C:\ungesichert\developR\analytics-governance-metadata-mesh-viewer-rshiny-at`
 
 ## 1. Objective (one sentence)

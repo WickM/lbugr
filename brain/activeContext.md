@@ -12,12 +12,13 @@ _Last updated: 2026-09-22. Current live state of the project — source of truth
 ## Current State (2026-09-22)
 
 - `main` @ `cd39fdd` (1 commit ahead of tag v0.1.1), clean tree. Last commit: `chore: initialise brain/ (activeContext + progress), exclude from R build`.
-- No open work on `main`.
+- **Active:** `feature/graph-viewer` @ Phases 2+3 committed — Shiny-Graph-Viewer (`inst/graph_viewer/`) + exportierte `graph_viewer(conn, …)`; Tests grün, R CMD check ohne neue Errors/Warnings (nur 2 `--no-build-vignettes`-Artefakte), Tarball verifiziert (DC8). **Offen:** DC9 manueller Browser-Smoke mit User + Merge-Entscheidung.
 
 ## Open Branches / Pending Decisions
 
 | Branch | Last activity | Content | Status |
 |---|---|---|---|
+| `feature/graph-viewer` | 2026-09-22 (2 commits ahead) | Interactive Shiny graph viewer: `graph_viewer(conn)` (g6R + reactable + bslib), local LadybugDB only | Unmerged — awaiting manual smoke (DC9) + user merge decision |
 | `feature/json-extension-check` | 2026-08-25 (1 commit ahead) | Gracefully handle missing Ladybug JSON extension | Unmerged |
 | `rust-backend` | 2026-07-17 (2 commits ahead) | **Strategic:** migrate backend from Python/reticulate to Rust (`lbug` crate) | Unmerged — decision pending: keep the reticulate bridge or migrate? |
 
